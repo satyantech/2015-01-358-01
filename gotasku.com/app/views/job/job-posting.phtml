@@ -1,0 +1,288 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Satyanarayan
+ * Date: 24-04-2015
+ * Time: 01:17
+ */
+?>
+        <script>
+            $(function(){
+                $('.cal').datepicker({
+                    /*orientation: "bottom left",*/
+                    //daysOfWeekDisabled: "0,6",
+                    calendarWeeks: true,
+                    autoclose: true,
+                    todayHighlight: true,
+                    format:'yyyy-mm-dd'
+                });
+                $('#lastdate').datepicker({
+                    orientation: "bottom left",
+                    daysOfWeekDisabled: "0,6",
+                    calendarWeeks: true,
+                    autoclose: true,
+                    todayHighlight: true,
+                    format:'yyyy-mm-dd'
+                });
+            });
+        </script>
+        <form method="post" id="create-job">
+            <div class="row border-bottom">
+                <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Työvuoron tiedot</h1></div>
+                <div class="col col-lg-6 col-md-6 col-sm-6">
+                    <div class="row formfield-group border">
+                        <div class="col col-lg-8 col-md-8 col-sm-8 border">
+                            <div class="formgroup-top-labels"><label class="form-label">TYÖTEHTÄVÄ</label><span class="validation required" for="job_title"></span></div>
+                            <input type="text" class="form-control validate req" placeholder="esim. Kahvilatyöntekijä" id="job_title" field="job_title" caption="TYÖTEHTÄVÄ"/>
+                        </div>
+                        <div class="col col-lg-4 col-md-4 col-sm-4 border">
+                            <div class="formgroup-top-labels"><label class="form-label">TYÖN TYYPPI</label><span class="validation required" for="job_type"></span></div>
+                            <select class="form-control validate req" id="job_type" field="job_type" caption="TYÖN TYYPPI">
+                                <option value="0">Kiireapulainen</option>
+                            </select>
+                        </div>
+                        <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                            <div class="formgroup-top-labels"><label class="form-label">ALKAA</label><span class="validation required" for="start_date"></span></div>
+                            <input type="text" class="form-control validate cal req" placeholder="yyyy-mm-dd" id="start_date" field="start_date" readonly caption="ALKAA"/>
+                        </div>
+                        <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                            <div class="formgroup-top-labels"><label class="form-label">PÄÄTTYY</label><span class="validation required" for="end_date"></span></div>
+                            <input type="text" class="form-control validate cal req" placeholder="yyyy-mm-dd" id="end_date" field="end_date" readonly caption="PÄÄTTYY"/>
+                        </div>
+                        <div class="col col-lg-12 col-md-12 col-sm-12 border">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col col-lg-3 col-md-3 col-sm-3">TUNTIPALKKA</div>
+                                    <div class="col col-lg-3 col-md-3 col-sm-3">
+                                        TYÖNTEKIJÄLLE
+                                        <input type="text" class="form-control validate decimal" placeholder="esim. 15" id="employee_benifit" field="employee_benifit"/> &euro;/h
+                                    </div>
+                                    <div class="col col-lg-3 col-md-3 col-sm-3 validate decimal">
+                                        SINÄ MAKSAT
+                                        <input type="text" class="form-control" placeholder="esim. 15" id="employer_pay" field="employer_pay"/> &euro;/h
+                                    </div>
+                                    <div class="col col-lg-3 col-md-3 col-sm-3"><span class="validation required" style="float:right" for="wage"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div  style="margin-left:10px;text-align: justify"><input type="checkbox" class="custom-checkbox" id="sift_charges_included" field="sift_charges_included"> TOIMEKSIANTO SISÄLTÄÄ USEAMPIA ERIKSEEN SOVITTAVIA TYÖVUOROJA.</div>
+                    <br/>
+                </div>
+            </div>
+            <div class="row border-bottom">
+                <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Työpaikan tiedot</h1></div>
+                <div class="col col-lg-6 col-md-6 col-sm-6">
+                    <div class="row formfield-group border">
+                        <div class="col col-lg-8 col-md-8 col-sm-8 border">
+                            <div class="formgroup-top-labels"><label class="form-label">YRITYKSEN NIMI</label><span class="validation required" for="business_name"></span></div>
+                            <input type="text" class="form-control validate req" placeholder="esim. Robert's Cofee" id="business_name" field="business_name" value="<?php echo $this->session->user_data->bsnss_nm; ?>"/>
+                        </div>
+                        <div class="col col-lg-4 col-md-4 col-sm-4 border">
+                            <div class="formgroup-top-labels"><label class="form-label">TOIMIALA</label><span class="validation required" for="business_type"></span></div>
+                            <select class="form-control validate req" id="business_type" field="business_type">
+                                <option value="0">Kahvilat</option>
+                            </select>
+                        </div>
+                        <div class="col col-lg-8 col-md-8 col-sm-8 border">
+                            <div class="formgroup-top-labels"><label class="form-label">KÄYNTIOSOITE</label><span class="validation required" for="business_address"></span></div>
+                            <input type="text" class="form-control validate req" placeholder="esim. 12/A Malminkaatu, Helsinki" id="business_address" field="business_address"/>
+                        </div>
+                        <div class="col col-lg-4 col-md-4 col-sm-4 border">
+                            <div class="formgroup-top-labels"><label class="form-label">POSTINUMERO</label><span class="validation required" for="postal_code"></span></div>
+                            <input type="text" class="form-control validate req" placeholder="esim. 00800" id="postal_code" field="postal_code"/>
+                        </div>
+                        <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                            <div class="formgroup-top-labels"><label class="form-label">PUHELINNUMERO</label><span class="validation required" for="phone"></span></div>
+                            <input type="text" class="form-control validate numeric req" placeholder="xxxxxxxxxx" id="phone" field="phone"/>
+                        </div>
+                        <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                            <div class="formgroup-top-labels"><label class="form-label">KOTISIVU</label><span class="validation" for="validation"></span></div>
+                            <input type="text" class="form-control validate web" placeholder="esim. www.foundza.com" id="website" field="website"/>
+                        </div>
+                    </div>
+                    <input type="checkbox" id="is_registered" class="custom-checkbox"><label for="is_registered">KÄYTÄ YRITYKSESI JO TALLENNETTUJA TIETOJA</label>
+                    <br/>
+                    <br/>
+                    <br/>
+                </div>
+            </div>
+            <div class="row border-bottom">
+                <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Työtehtävien kuvaus</h1></div>
+                <div class="col col-lg-6 col-md-6 col-sm-6">
+                    <div class="row formfield-group border">
+                        <div class="col col-lg-12 col-md-12 col-sm-12 border">
+                            <div class="formgroup-top-labels"><label class="form-label">TYÖTEHTÄVÄT</label><span class="validation required" for="description"></span></div>
+                            <textarea class="form-control count-me" maxlength="500" id="description" placeholder="Kerro työtehtävistä lyhyesti, mutta tarpeeksi kattavasti." rows="9" field="description"></textarea>
+                            <div class="formgroup-top-labels" style="text-align: right;"><span class="count" for="description">0/500</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row border-bottom">
+                <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Vähimmäisvaatimukset</h1></div>
+                <div class="col col-lg-6 col-md-6 col-sm-6">
+                    <div class="row formfield-group border">
+                        <div class="col col-lg-12 col-md-12 col-sm-12 border">
+                            <div class="formgroup-top-labels"><label class="form-label">VÄHIMMÄISVAATIMUKSET</label><span class="validation required" for="min_req"></span></div>
+                            <input type="text" class="form-control" placeholder="Kirjoita tähän työssä vaadittavat vähimmäisvaatimukset ja erota ne toisistaan pilkulla." id="min_req" field="min_req"/>
+                            <div class="skill-pool">esim. "hygieniapassi", "kassakokemus", "kokkikoulutus"</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row border-bottom">
+                <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Viimeinen jättöpäivä</h1></div>
+                <div class="col col-lg-6 col-md-6 col-sm-6">
+                    <div class="row formfield-group border">
+                        <div class="col col-lg-12 col-md-12 col-sm-12 border">
+                            <div class="formgroup-top-labels"><label class="form-label">Valitse päivämäärä</label><span class="validation required" for="lastdate"></span></div>
+                            <input type='text' class="form-control" id="lastdate" field="lastdate" readonly="readonly" placeholder="yyyy/mm/dd"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col col-lg-12 col-md-12 col-sm-12 center">
+                    <button type="button" class="btn btn-success btn-lg tasku-form-btn" id="btn-create-job">Julkaise ilmoitus!</button>
+                    <button type="button" class="btn btn-default btn-lg tasku-form-btn" id="btn-reset-form">Keskeytä</button>
+                </div>
+            </div>
+        </form>
+        <script type="text/javascript">
+            $(function(){
+                $('.required').text('VAADITAAN');
+                //Get Initial values for the form
+                //1. JOB TYPES
+                $.post('<?php echo SITE_PATH; ?>misc/getjobtypes',{},function(resp){
+                    try{
+                        var json_obj = $.parseJSON(resp);
+                        if(json_obj.response.code=='0x0000'){
+                            var records = json_obj.response.records;
+                            $.each(records,function(){
+                                $('#job_type').append('<option value='+this.id+'>'+this.typeName+'</option>');
+                            })
+                        }
+                    }catch(ex){
+                        alert(ex.message);
+                    }
+                });
+                //2. BUSINESS TYPES
+                $.post('<?php echo SITE_PATH; ?>misc/getbusinesstypes',{},function(resp){
+                    try{
+                        var json_obj = $.parseJSON(resp);
+                        if(json_obj.response.code=='0x0000'){
+                            var records = json_obj.response.records;
+                            $.each(records,function(){
+                                $('#business_type').append('<option value='+this.id+'>'+this.type_nm+'</option>');
+                            })
+                        }
+                    }catch(ex){
+                        alert(ex.message);
+                    }
+                });
+
+
+                //COUNTING THE CHARACTERS IN DESCRIPTION
+                $('.count-me').on('input',function(e){
+                    if($(this).val().length <= $(this).attr('maxlength')) $('span.count[for="'+$(this).attr('id')+'"]').text($(this).val().length + '/' + $(this).attr('maxlength'));
+                    else e.preventDefault();
+                });
+
+                //HANDLING THE FORM SUBMISSION
+                $('#btn-reset-form').click(function(){
+                    $('form#create-job')[0].reset();
+                });
+                $('#btn-create-job').click(function(){
+                    var isValid = true;
+                    $('.validate').each(function(){
+                        var ele = $(this);
+                        if(ele.hasClass('req')){
+                            var val = ele.val();
+                            if(ele.prop('tagName').toLowerCase()=='select' && val==0) {alert('Must select a value for '+ele.attr('caption'));$('span[for="'+ele.attr('id')+'"]').css('font-weight','bold'); ele.focus(); isValid=false; return false;}
+                            else if($.trim(val).length==0) {alert('Must enter some value for '+ele.attr('caption'));ele.focus();$('span[for="'+ele.attr('id')+'"]').css('font-weight','bold'); isValid=false; return false;}
+                        }
+                        if(ele.hasClass('email')){
+                            if(!isEmail(ele.val())){
+                                alert('Pätemätön '+ele.attr('caption'));
+                                ele.focus();
+                                $('span[for="'+ele.attr('id')+'"]').css('font-weight','bold');
+                                isValid = false;
+                                return false;
+                            }
+                        }
+                    });
+                    if(isValid){
+                        //If above validations pass then we are posting data
+                        var j = $('#job_title').val();
+                        var jt = $('#job_type').val();
+                        var std = $('#start_date').val();
+                        var end = $('#end_date').val();
+                        var eg = $('#employee_benifit').val();
+                        var erg = $('#employer_pay').val();
+                        var sc = $('#sift_charges_included').is(':checked')?1:0; //shift charges
+                        var bn = $('#business_name').val();
+                        var bt = $('#business_type').val();
+                        var ba = $('#business_address').val();
+                        var bp = $('#postal_code').val();
+                        var bc = $('#phone').val();
+                        var ws = $('#website').val();
+                        var br = $('#is_registered').is(':checked')?1:0;
+                        var jd = $('#description').val();
+                        var mr = $('#min_req').val();
+                        var ld = $('#lastdate').val();
+
+
+                        $.post('<?php echo SITE_PATH; ?>job/cretaejob',{
+                            'j':j,'jt':jt,'std':std,
+                            'end':end,'eg':eg,'erg':erg,
+                            'sc':sc,'bn':bn,'bt':bt,
+                            'ba':ba,'bp':bp,'bc':bc,
+                            'ws':ws,'br':br,'jd':jd,
+                            'mr':mr,'ld':ld
+                        },function(resp){
+                                alert(resp);
+                        });
+                    }
+                });
+                $('.validate').blur(function(){
+                    var ele = $(this);
+                    //if select
+                    if(ele.prop('tagName').toLowerCase()=='select' && ele.hasClass('req')){
+                        if(ele.val()==0){
+                            alert('Please select a value for '+ele.attr('caption'));
+                            $('span[for="'+ele.attr('id')+'"]').css({'font-weight':'bold','color':'red'}).text('VAADITAAN');
+                            return false;
+                        }else{
+                            $('span[for="'+ele.attr('id')+'"]').css({'font-weight':'bold','color':'green'}).text('OK');
+                        }
+                    }
+                    //if input
+                    if(ele.prop('tagName').toLowerCase()=='input' && ele.hasClass('req') && !ele.hasClass('cal') && ele.attr('type')!='checkbox'){
+                        if($.trim(ele.val())==''){
+                            alert('Please enter a value for '+ele.attr('caption'));
+                            $('span[for="'+ele.attr('id')+'"]').css({'font-weight':'bold','color':'red'}).text('VAADITAAN');
+                            return false;
+                        }else{
+                            $('span[for="'+ele.attr('id')+'"]').css({'font-weight':'bold','color':'green'}).text('OK');
+                        }
+                    }
+                    //if checkbox
+                    //if email
+                    if(ele.hasClass('email')){
+                        if(ele.val()!='' && !IsEmail(ele.val())) {
+                            alert('Invalid '+ele.attr('caption'));
+                            $('span[for="'+ele.attr('id')+'"]').css({'font-weight':'bold','color':'red'}).text('Pätemätön');
+                        }else{
+                            $('span[for="'+ele.attr('id')+'"]').css({'font-weight':'bold','color':'green'}).text('OK');
+                        }
+                    }
+                    return true;
+                });
+            });
+            function IsEmail(email) {
+                var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                return regex.test(email);
+            }
+        </script>

@@ -1,0 +1,42 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Satyanarayan
+ * Date: 23-04-2015
+ * Time: 15:21
+ */
+?>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="<?php echo SITE_PATH ?>"><img src="<?php echo IMG_PATH; ?>task-logo.png" style="width:84px; height:32px; margin-top:-10px;"></a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-user"></i> <!--div class="nav-profile-img"><img src="<?php echo IMG_PATH?>defaultProfile.png"></div--><?php echo $this->session->user_data->fnm.' '.$this->session->user_data->lnm; ?> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="<?php echo SITE_PATH; ?>profile"><i class="fa fa-user"></i> Oma profiili</a></li>
+                        <li><a href="<?php echo SITE_PATH; ?>profile/preferences"><i class="fa fa-heart"></i> Omat asetukset</a></li>
+                        <li class="divider"></li>
+                        <li><a href="<?php echo SITE_PATH; ?>"><i class="fa fa-comments"></i> TUKI</a></li>
+                        <li><a href="<?php echo SITE_PATH; ?>logout"><i class="fa fa-sign-out"></i> KIRJAUDU ULOS</a></li>
+                    </ul>
+                </li>
+                <!--li><a href="<?php echo SITE_PATH; ?>"><i class="fa fa-ellipsis-h"></i> Omat vuoroni</a></li-->
+                <li><a href="<?php echo SITE_PATH; ?>profile/opportunities"><i class="fa fa-paper-plane"></i> Avoimet työpaikat</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+

@@ -1,0 +1,106 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Satyanarayan
+ * Date: 24-04-2015
+ * Time: 19:28
+ */
+?>
+<style type="text/css">
+    .opening-container{
+        padding:20px;
+    }
+    .opening .top{
+        height:20em;
+        border:1px solid #000;
+    }
+    .opening .top .image{
+        position: relative;
+        height:100%;
+        width:100%;
+        background-size:100% 100%;
+    }
+    .opening .top .price-tag{
+        postion:absolute;
+        padding: 15px 10px;
+        font-size:19px;
+        font-weight: 400;
+        background: rgba(0,0,0,0.5);
+        float:right;
+        color:#ffffff;
+    }
+
+    .opening .top .opening-label{
+        text-align: center;
+        margin-top: 120px;
+        position:absolute;
+        width:100%;
+        background: rgba(255,255,255,0.7);
+    }
+
+    .opening .top .opening-label .position{
+        font-weight: bold;
+        font-size:250%;
+        color:#000;
+    }
+    .opening .top .opening-label .organization{
+        font-weight: bold;
+        font-size:120%;
+        color:#000;
+    }
+    .opening-footer{
+        padding:5px 0px;
+    }
+    .icon-footer-val{
+        height:52px;
+    }
+    .footer-val{
+        height:52px;
+        /*border: 1px solid #000;*/
+        padding:10px 5px;
+        text-wrap: normal;
+        text-align: left;
+    }
+    .opening-footer .container-fluid{
+        padding:5px
+    }
+    .opening-footer{
+        padding:0px;margin:0px;
+    }
+</style>
+
+<div class="row">
+    <!-- Job Container Begin -->
+    <div class="col col-lg-4 col-md-4 col-sm-4 opening-container">
+        <div class="opening">
+            <div class="top">
+                <div class="image" style="background: url('<?php echo IMG_PATH; ?>img-01.jpg') no-repeat center; background-size: 100% 100%;">
+                <div class="opening-label">
+                    <div class="position">Bartender in the Bar</div>
+                    <div class="organization">Robert's Cafe</div>
+                </div>
+                <div class="price-tag">15,00 &euro;</div>
+                </div>
+            </div>
+        </div>
+        <div class="opening-footer">
+            <div class="container-fluid border center">
+                <div class="row-fluid">
+                    <div class="col col-lg-6 col-md-6 col-sm-12">
+                        <div class="row">
+                            <div class="col col-lg-6 col-md-4 col-sm-12 icon-footer-val "><img src="<?=IMG_PATH?>time.png"></div>
+                            <div class="col col-lg-6 col-md-4 col-sm-12 footer-val center" style="text-align: center;">2015/04/24 15:15 Hrs</div>
+                        </div>
+                    </div>
+                    <div class="col col-lg-6 col-md-6 col-sm-12">
+                        <div class="row">
+                            <div class="col col-lg-6 col-md-4 col-sm-12 icon-footer-val"><img src="<?=IMG_PATH?>place.png"></div>
+                            <div class="col col-lg-6 col-md-4 col-sm-12 footer-val center" style="padding-top: 15px; text-align: center">5 KM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Job Container End -->
+</div>

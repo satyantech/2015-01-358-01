@@ -1,0 +1,89 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Satyanarayan
+ * Date: 24-04-2015
+ * Time: 17:52
+ */
+?>
+<?php
+    $json_data = json_decode($getVals);
+    $vals = array();
+    foreach($json_data->response->records as $r){
+        $vals[$r->setting]= $r->value;
+    }
+//print_r($vals);
+?>
+<style type="text/css">
+    .tooltip{display:none;}
+</style>
+        <form>
+            <div class="row border-bottom">
+                <div class="col col-lg-4 col-md-4 col-sm-4"><h1>Palkka ja sijainti</h1></div>
+
+                <div class="col col-lg-4 col-md-4 col-sm-4">
+                    <div class="row formfield-group border">
+                        <div class="col col-lg-12 col-md-12 col-sm-12 border">
+                            <div class="formgroup-top-labels"><label class="form-label">PALKKAPYYNTÖ</label><span class="validation wage"></span></div>
+                            <div style="padding:0px 20px;">
+                                <div id="wage-val" class="display-slider-val"> <span id="selected-wage"><?php echo $vals['WAGE']; ?></span> &euro;/h</div>
+                                <input name="wage" id="wage" value="" data-slider-id='wage' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="<?php echo $vals['WAGE']; ?>" style="width:100%"/>
+                                <div class="formgroup-top-labels"><span>Et tule vastaanottamaan palkkapyyntösi alhaisempia työtarjouksia.</span></div>
+                            </div>
+                            <br/>
+                            <script type="text/javascript">
+                                $(function(){
+                                    $('#selected-wage').text('<?php echo $vals['WAGE']; ?>');
+                                    $('#wage').slider({
+                                        formatter: function(value) {
+                                            return 'Current value: ' + value;
+                                        }
+                                    }).on('slide',function(e){
+                                        $('#wage').val(e.value);
+                                        $('#selected-wage').text(e.value);
+                                        $.post('<?php echo SITE_PATH; ?>profile/updateemppreference',{'field':'WAGE','val': e.value},function(resp){});
+                                    }).data('slider');
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-lg-4 col-md-4 col-sm-4">
+                    <div class="row formfield-group border">
+                        <div class="col col-lg-12 col-md-12 col-sm-12 border">
+                            <div class="formgroup-top-labels"><label class="form-label">ETÄISYYS</label><span class="validation"></span></div>
+                            <div style="padding:0px 20px;">
+
+                                <div id="distance-val" class="display-slider-val">enintään <span id="selected-distance"><?php echo $vals['WORK_DISTANCE']; ?></span> KM</div>
+                                <input name="distance" id="distance" value="" data-slider-id='distance' type="text" data-slider-min="0" data-slider-max="500" data-slider-step="1" data-slider-value="<?php echo $vals['WORK_DISTANCE']; ?>" style="width:100%"/>
+                                <div class="formgroup-top-labels"><span>Et tule vastaanottamaan työtarjouksia, joissa työntekopaikkaon kauempana kotiosoitettasi kuin yllä ilmoittamasi etäisyys.</span></div>
+                            </div>
+                            <br/>
+                            <script>
+                                $(function(){
+                                    $('#selected-distance').text('<?php echo $vals['WORK_DISTANCE']; ?>');
+                                    $('#distance').slider({
+                                        formatter: function(value) {
+                                            return 'Current value: ' + value;
+                                        }
+                                    }).on('slide',function(e){
+                                        $('#wage').val(e.value);
+                                        $('#selected-distance').text(e.value);
+                                        $.post('<?php echo SITE_PATH; ?>profile/updateemppreference',{'field':'WORK_DISTANCE','val': e.value},function(resp){});
+                                    }).data('slider');
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <br/>
+                <div class="col col-lg-12 col-md-12 col-sm-12 center">
+                    <button type="button" class="btn btn-success tasku-form-btn">Tallenna muutokset</button>
+                    <button type="button" class="btn btn-default tasku-form-btn">Palaa tallentamatta</button>
+                </div>
+            </div>
+        </form>
+        <link rel="stylesheet" type="text/css" href="<?php echo THIRD_PARTY_PATH?>bootstrap-slider/bootstrap-slider.css">
+        <script type="text/javascript" src="<?php echo THIRD_PARTY_PATH?>bootstrap-slider/bootstrap-slider.js"></script>

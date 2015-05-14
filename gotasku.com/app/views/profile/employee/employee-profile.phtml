@@ -1,0 +1,402 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Satyanarayan
+ * Date: 23-04-2015
+ * Time: 18:11
+ */
+?>
+
+
+<form name="employee_profile" id="employee-profile" method="post">
+    <div class="row border-bottom">
+        <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Profiilikuva</h1></div>
+        <div class="col col-lg-6 col-md-6 col-sm-6">
+            <div class="row formfield-group border">
+                <div class="col col-lg-12 col-md-12 col-sm-12 border">
+                    <div class="formgroup-top-labels"><label class="form-label">PROFIILIKUVASI</label><span class="validation"></span></div>
+                    <div style="text-align: center;">
+                        <img class="profile-pic" id="profile-pic" src="<?php echo IMG_PATH.(($current_user_data->profile_pic)?'profiles/'.$current_user_data->profile_pic:'defaultProfile.png');?>" style="width:128px;height:128px; border-radius:500px;"><br/>
+                        <input type="file" name="profpicFile" id="profilepicFile" style="visibility: hidden"></div>
+                    <div class="formgroup-top-labels"><span>Lataa valokuva laitteeeltasi tai valitse se Facebookista.</span>
+                        <div class="prof-pic-progress progress active" id="prof-pic-progress">
+                            <div class="progress-bar" id="prof-pic-upload-prog"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row border-bottom">
+        <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Perustiedot</h1></div>
+        <div class="col col-lg-6 col-md-6 col-sm-6">
+            <div class="row formfield-group border">
+                <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                    <div class="formgroup-top-labels"><label class="form-label">ETUNIMI</label><span class="validation required" for="fname"></span></div>
+                    <input type="text" class="form-control update validate req" placeholder="etunimi" name="fname" id="fname" caption="ETUNIMI" value="<?php echo $current_user_data->fnm ? $current_user_data->fnm : ''; ?>" oldval="<?php echo $current_user_data->fnm ? $current_user_data->fnm : ''; ?>" data_field="first_name"/>
+                </div>
+                <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                    <div class="formgroup-top-labels"><label class="form-label">SUKUNIMI</label><span class="validation required" for="lname"></span></div>
+                    <input type="text" class="form-control update validate req" placeholder="sukunimi" name="lname" id="lname" caption="SUKUNIMI" value="<?php echo $current_user_data->lnm ? $current_user_data->lnm : ''; ?>" oldval="<?php echo $current_user_data->lnm ? $current_user_data->lnm : ''; ?>" data_field="last_name"/>
+                </div>
+                <div class="col col-lg-8 col-md-8 col-sm-8 border">
+                    <div class="formgroup-top-labels"><label class="form-label">KATUOSOITE</label><span class="validation required" for="addr"></span></div>
+                    <input type="text" class="form-control update validate req" placeholder="esim. 12/A Malminkaatu, Helsinki" name="addr" id="addr" caption="KATUOSOITE" value="<?php echo $current_user_data->cntct_addr ? $current_user_data->cntct_addr : ''; ?>" oldval="<?php echo $current_user_data->cntct_addr ? $current_user_data->cntct_addr : ''; ?>"  data_field="contact_addr"/>
+                </div>
+                <div class="col col-lg-4 col-md-4 col-sm-4 border">
+                    <div class="formgroup-top-labels"><label class="form-label">POSTINUMERO</label><span class="validation required" for="postalcode"></span></div>
+                    <input type="text" class="form-control update validate req" placeholder="esim. 00800" name="postalcode" id="postalcode" caption="POSTINUMERO" value="<?php echo $current_user_data->pstl_cd ? $current_user_data->pstl_cd : ''; ?>" oldval="<?php echo $current_user_data->pstl_cd ? $current_user_data->pstl_cd : ''; ?>" data_field="postal_code"/>
+                </div>
+                <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                    <div class="formgroup-top-labels"><label class="form-label">PUHELINNUMERO</label><span class="validation required" for="phonenumber"></span></div>
+                    <input type="text" class="form-control update validate req cellphone" maxlength="10" placeholder="xxxxxxxxxx" name="phonenumber" id="phonenumber" caption="PUHELINNUMERO" value="<?php echo $current_user_data->cntct_num1 ? $current_user_data->cntct_num1 : ''; ?>" oldval="<?php echo $current_user_data->cntct_num1 ? $current_user_data->cntct_num1 : ''; ?>" data_field="phone"/>
+                </div>
+                <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                    <div class="formgroup-top-labels"><label class="form-label">SÄHKÖPOSTIOSOITE</label><span class="validation required" for="email"></span></div>
+                    <input type="email" class="form-control update validate req email" placeholder="you@somewhere.com" name="email" id="email" caption="SÄHKÖPOSTIOSOITE" value="<?php echo $current_user_data->email1 ? $current_user_data->email1 : ''; ?>" oldval="<?php echo $current_user_data->email1 ? $current_user_data->email1 : ''; ?>" data_field="email"/>
+                </div>
+                <div class="col col-lg-12 col-md-12 col-sm-12 border">
+                    <div class="formgroup-top-labels"><label class="form-label">PANKKITILI</label><span class="validation required" for="bankaccount"></span></div>
+                    <input type="text" class="form-control update validate req" placeholder="esim. FI52 4900 01234 6785 12" name="bankaccount" id="bankaccount" caption="PANKKITILI" value="<?php echo $current_user_data->account_number_iban ? $current_user_data->account_number_iban : ''; ?>" oldval="<?php echo $current_user_data->account_number_iban ? $current_user_data->account_number_iban : ''; ?>"  data_field="iban"/>
+                    <div class="formgroup-top-labels">Ilmoita pankkitilisi IBAN-muodossa, niin saat palkkasi varmasti ajoissa tilille!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row border-bottom">
+        <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Kuvaus</h1></div>
+        <div class="col col-lg-6 col-md-6 col-sm-6">
+            <div class="row formfield-group border">
+                <div class="col col-lg-12 col-md-12 col-sm-12 border">
+                    <div class="formgroup-top-labels"><label class="form-label">KUVAUS</label><span class="validation required"></span></div>
+                    <textarea class="form-control validate update req count" maxlength="500" placeholder="Kerro itsestäsi lyhyesti ja ytimekkäästi, sinulla on 500 merkkiä käytettävänäsi!" rows="9" name="description" id="description" caption="KUVAUS" data_field="about"/><?php echo $current_user_data->dscrptn ? $current_user_data->dscrptn : ''; ?></textarea>
+                    <div class="formgroup-top-labels"><span class="validation counter" countfor="description">0/500</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row border-bottom">
+        <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Koulutus ja osaaminen</h1></div>
+        <div class="col col-lg-6 col-md-6 col-sm-6">
+            <br/>
+            <div class="row formfield-group border">
+                <div class="col col-lg-3 col-md-3 col-sm-3 border">
+                    <div class="formgroup-top-labels"><label class="form-label">KOULUTUS</label><span class="validation required"></span></div>
+                    <select class="form-control validate req" caption="KOULUTUS" name="ddlEducation" id="ddlEducation">
+                        <option value="0">Valitse tutkintosi</option>
+                    </select>
+                </div>
+                <div class="col col-lg-4 col-md-4 col-sm-4 border">
+                    <div class="formgroup-top-labels"><label class="form-label">OPPILAITOS</label><span class="validation required"></span></div>
+                    <input type="text" class="form-control validate req" placeholder="Missä suoritit tutkintosi?" caption="OPPILAITOS" name="stream" id="stream"/>
+                </div>
+                <div class="col col-lg-5 col-md-5 col-sm-5 border">
+                    <div class="formgroup-top-labels"><label class="form-label">PÄÄAINE/KOULUTUSLINJA</label><span class="validation required"></span></div>
+                    <input type="text" class="form-control validate req" placeholder="esim. 'restonomi'" caption="PÄÄAINE/KOULUTUSLINJA" name="subjects" id="subjects"/>
+                </div>
+                <div class="col col-lg-12 col-md-12 border" style="padding:3px;">
+                    <button type="button" name="btnSaveEducation" id="btnSaveEducation" class="btn btn-success btn-block">Save Education</button>
+                </div>
+                <div class="col col-lg-12 col-md-12 border" style="padding:3px;">
+                    <div class="formgroup-top-labels"><label class="form-label">SAVED EUCATIONS</label></div>
+                    <div>
+                        <table class="table table-responsive table-striped table-hover table-education">
+                            <thead>
+                            <tr>
+                                <th>KOULUTUS</th>
+                                <th>OPPILAITOS</th>
+                                <th>PÄÄAINE/KOULUTUSLINJA</th>
+                                <th>Options</th>
+                            </tr>
+                            </thead>
+                            <tbody id="edu-details">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col col-lg-12 col-md-12 col-sm-12 border">
+                    <div class="formgroup-top-labels"><label class="form-label">OSAAMISALUEENI</label><span class="validation"></span></div>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Lisätäksesi osaamisalueen, kirjoita se tähän ja paina enter." id="inputSkill" name="inputSkill" >
+                        <span class="input-group-addon" id="basic-addon2"><a href="javascript:void(0);" id="btnSaveSkills"><i class="fa fa-save"></i></a></span>
+                    </div>
+                    <div class="skill-pool"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row border-bottom">
+        <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Työkokemus</h1></div>
+        <div class="col col-lg-6 col-md-6 col-sm-6">
+            <br/>
+            <div class="row formfield-group border">
+                <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                    <div class="formgroup-top-labels"><label class="form-label">TYÖTEHTÄVÄ</label><span class="validation"></span></div>
+                    <input type="text" class="form-control" placeholder="" id="expDesig" name="expDesig"/>
+                </div>
+                <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                    <div class="formgroup-top-labels"><label class="form-label">TYÖNANTAJA</label><span class="validation"></span></div>
+                    <input type="text" class="form-control" placeholder="" id="expOrg" name="expOrg"/>
+                </div>
+                <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                    <div class="formgroup-top-labels"><label class="form-label">ALKOI</label><span class="validation"></span></div>
+                    <input type="text" class="form-control" placeholder="yyyy-mm-dd" readonly id="expFrom" name="expFrom"/>
+                </div>
+                <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                    <div class="formgroup-top-labels"><label class="form-label">PÄÄTTYI</label><span class="validation"></span></div>
+                    <input type="text" class="form-control" placeholder="yyyy-mm-dd" readonly id="expTo" name="expTo">
+                </div>
+                <div class="col col-lg-12 col-md-12 col-sm-12 border" style="padding:3px;">
+                    <button type="button" id="btnSaveExp" class="btn btn-success btn-block">Save Experience</button>
+                </div>
+                <div class="col col-lg-12 col-md-12 col-sm-12 border">
+                    <div class="formgroup-top-labels"><label class="form-label">Saved Experiences</label></div>
+                    <div>
+                        <table class="table table-responsive table-striped table-hover table-experiences">
+                            <thead>
+                            <tr>
+                                <th>TYÖNANTAJA</th>
+                                <th>TYÖTEHTÄVÄ</th>
+                                <th>ALKOI</th>
+                                <th>PÄÄTTYI</th>
+                                <th>Options</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $(function(){
+                    $('#expFrom,#expTo').datepicker({
+                        orientation: "bottom left",
+                        //daysOfWeekDisabled: "0,6",
+                        calendarWeeks: true,
+                        autoclose: true,
+                        todayHighlight: true,
+                        format:'yyyy-mm-dd'
+                    });
+                });
+            </script>
+        </div>
+    </div>
+    <div class="row border-bottom">
+        <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Todistukset</h1></div>
+        <div class="col col-lg-6 col-md-6 col-sm-6">
+            <br/>
+            <div class="row formfield-group border">
+                <div class="col col-lg-8 col-md-8 col-sm-8 border">
+                    <div class="formgroup-top-labels"><label class="form-label">AJOKORTTI</label><span class="validation"></span></div>
+                    <button type="button" class="btn btn-xs btn-primary">Lataa kuva ajokortistasi</button><input type="file" name="" id="" style="visibility: hidden">
+                </div>
+                <div class="col col-lg-4 col-md-4 col-sm-4 border" style="padding:21px 3px 20px 3px;">
+                    <button type="button" class="btn btn-default btn-block" style="border:none;">LATAA</button>
+                </div>
+
+                <div class="col col-lg-8 col-md-8 col-sm-8 border">
+                    <div class="formgroup-top-labels"><label class="form-label">HYGIENIAPASSI</label><span class="validation"></span></div>
+                    <button type="button" class="btn btn-xs btn-primary">Lataa kuva hygieniapassistasi</button><input type="file" name="" id="" style="visibility: hidden">
+                </div>
+                <div class="col col-lg-4 col-md-4 col-sm-4 border" style="padding:21px 3px 20px 3px;">
+                    <button type="button" class="btn btn-default btn-block" style="border:none;">LATAA</button>
+                </div>
+
+                <div class="col col-lg-8 col-md-8 col-sm-8 border">
+                    <div class="formgroup-top-labels"><label class="form-label">ANNISKELULUPA</label><span class="validation"></span></div>
+                    <button type="button" class="btn btn-xs btn-primary">Lataa kuva anniskeluluvastasi</button><input type="file" name="" id="" style="visibility: hidden">
+                </div>
+                <div class="col col-lg-4 col-md-4 col-sm-4 border" style="padding:21px 3px 20px 3px;">
+                    <button type="button" class="btn btn-default btn-block" style="border:none;">LATAA</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col col-lg-12 col-md-12 col-sm-12 center">
+            <button type="button" class="btn btn-success btn-lg tasku-form-btn" name="btnSave" id="btnSave">Tallenna muutokset</button>
+            <button type="reset" class="btn btn-default btn-lg tasku-form-btn" name="btnReset" id="btnReset">Palaa tallentamatta</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="<?php echo JS_PATH; ?>file-uploader.js"></script>
+<script type="text/javascript" src="<?php echo JS_PATH; ?>myvalidator.js"></script>
+<script type="text/javascript">
+    $(function(){
+
+        $('.required').text('VAADITAAN');
+        $('.profile-pic').click(function(){
+            $('#profilepicFile').trigger('click');
+        });
+        $('#profilepicFile').change(function(){
+            $('.prof-pic-progress').css({'visibility':'visible'});
+            uploadProfilePic('profilepicFile','<?php echo SITE_PATH ?>fileupload/profilepicupload',null,'prof-pic-upload-prog',true,'profile-pic')
+        });
+
+        $('#btnSave').click(function(){
+            if(isFormValid()){
+                $('#employee-profile').submit();
+            }
+        });
+
+        $.post('<?php echo SITE_PATH; ?>education/geteducationtypes','',function(resp){
+            var json_data = $.parseJSON(resp);
+            $.each(json_data.educations,function(){
+                $('#ddlEducation').append('<option value="'+this.id+'">'+this.val+'</option>');
+            });
+        });
+        //gets the employee education details
+        getEducationdetails();
+
+        //saving a new education details
+        $('#btnSaveEducation').click(function(){
+            //validation
+            if($('#ddlEducation').val()==0){alert('Must Select an education type');$('#ddlEducation').focus();return false;}
+            if($('#stream').val()==0){alert('Must enter value for stram of study');$('#stream').focus();return false;}
+            if($('#ddlEducation').val()==0){alert('Must enter value for subjects studied');$('#subject').focus();return false;}
+
+            $.post('<?php echo SITE_PATH; ?>education/saveempeducationdata',{
+                'edu_type'      :   $('#ddlEducation').val(),
+                'stream'        :   $('#stream').val(),
+                'subjects'      :   $('#subjects').val()
+            },function(resp){
+                var json_data = $.parseJSON(resp);
+                if(json_data.response.code=='0x0000'){
+                    getEducationdetails();
+                    $('#ddlEducation').val(0);
+                    $('#stream,#subjects').val('');
+                }else{
+                    alert('Error While Saving Record!');
+                }
+            });
+        });
+
+        //saving skills
+        $('#btnSaveSkills').click(function(){
+            var skills = $.trim($('#inputSkill').val());
+            if($.trim(skills).length > 0){
+                saveSkills(skills);
+            }
+        });
+
+        //saving experiences
+        $('#btnSaveExp').click(function(){
+            var desig = $('#expDesig').val();
+            var org = $('#expOrg').val();
+            var from = $('#expFrom').val();
+            var to = $('#expTo').val();
+            empSaveExp(desig,org,from,to);
+        });
+
+        //update
+        $('.update').blur(function(){
+            if(($(this).val() != $(this).attr('oldval')) || $(this).prop('tagName')=='textarea') {
+                var ele = $(this);
+                $.post('<?php echo SITE_PATH; ?>profile/updateemppersonaldetails', {
+                    'field' :   $(this).attr('data_field'),
+                    'val'   :   $(this).val()
+                }, function (resp) {
+                    var json_obj = $.parseJSON(resp);
+                    if(json_obj.response.code == '0x0000') {
+                        ele.css({'background':'#CEC'});
+                        setTimeout(function () {
+                            ele.css({'background':'#fff'});
+                        }, 2000);
+                        //update the old value
+                        $(this).attr('oldval', ele.val());
+                    }
+                });
+            }
+        });
+        getSkills();
+        getEmpExperiences();
+    });
+    //EDUCATION RELATED
+    function getEducationdetails(){
+        $.post('<?php echo SITE_PATH; ?>education/getempeducationdetails','',function(resp){
+                document.getElementById('edu-details').innerHTML = resp;
+        });
+    }
+    function delEdu(rid){
+        if(confirm('You are about to delete an Education from your profile.\nDo you want to Proceed?')) {
+            $.post('<?php echo SITE_PATH; ?>education/deleteempeducation/', {'rid': rid}, function (resp) {
+                var json_data = $.parseJSON(resp);
+                if (json_data.response.code == '0x0000')   getEducationdetails();
+                else alert(json_data.response.resp_msg);
+            });
+            getEducationdetails();
+            return false;
+        }else{
+            return false;
+        }
+    }
+
+    //SKILL RELATED
+    function getSkills(){
+        $.post('<?php echo SITE_PATH; ?>education/getempskills','',function(resp){
+            var json_respObj = $.parseJSON(resp);
+            if(json_respObj.response.code == '0x0000'){
+                $('.skill-pool').html('');
+                $.each(json_respObj.response.records,function(){
+                    $('.skill-pool').append('<span class="label label-skills">' + this.skill + '<span class="skill-del" rid="' + this.id + '" onclick="javascript:delEmpSkill(' + this.id + ')"><i class="fa fa-times-circle"></i></span></span> ');
+                });
+            }else{
+                $('.skill-pool').html('<span>No Skills Saved...</span>');
+            }
+        });
+    }
+    function saveSkills(skills){
+        $.post('<?php echo SITE_PATH; ?>education/empsaveskills',{'skills':skills},function(resp){
+            var json_respObj = $.parseJSON(resp);
+            if(json_respObj.response.code=='0x0000') {$('#inputSkill').val('');getSkills();}
+            else alert(json_respObj.response.resp_msg);
+        });
+    }
+    function delEmpSkill(id){
+         if(confirm('You are going to delete a saved Skill')) {
+             $.post('<?php echo SITE_PATH; ?>education/delempskill', {'rid': id}, function (resp) {
+                 getSkills();
+             });
+         }
+    }
+
+    //EXPERIENCE RELATED
+    function getEmpExperiences(){
+        $.post('<?php echo SITE_PATH; ?>experience/getempexperiences','',function(resp){
+            $('table.table-experiences tbody').html(resp);
+        });
+    }
+    function empSaveExp(desig,org,from,to){
+        $.post('<?php echo SITE_PATH; ?>experience/saveempexperience', {'desig': desig,'org':org,'from':from,'to':to}, function (resp) {
+            var json_resp = $.parseJSON(resp);
+            if(json_resp.response.code=='0x0000'){
+                getEmpExperiences();
+                clearExperience();
+            }else{
+                alert(json_resp.response.resp_msg);
+            }
+        });
+    }
+    function empDelExp(id){
+        if(confirm('You are about to delete an Experience.\nWant to Proceed?')) {
+            $.post('<?php echo SITE_PATH; ?>experience/delempexperience', {'rid': id}, function (resp) {
+                getEmpExperiences();
+            });
+        }
+    }
+    function clearExperience(){
+        $('#expDesig').val('');
+        $('#expOrg').val('');
+        $('#expFrom').val('');
+        $('#expTo').val('');
+    }
+    //document section functions
+    function getDocuments(){
+
+    }
+
+</script>

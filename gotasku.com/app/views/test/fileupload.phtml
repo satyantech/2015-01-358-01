@@ -1,0 +1,74 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Satyanarayan
+ * Date: 27-04-2015
+ * Time: 23:43
+ */
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ajax File Upload</title>
+        <link rel="icon" type="image/png" href="<?php echo IMG_PATH; ?>fav-icon.png">
+        <link rel="stylesheet" type="text/css" href="<?php echo THIRD_PARTY_PATH; ?>bootstrap-3.3.2/css/bootstrap.min.css">
+        <!--link rel="stylesheet" type="text/css" href="<?php echo THIRD_PARTY_PATH; ?>bootswatch/bootswatch-cosmo.css"-->
+        <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH; ?>pulse.css">
+        <!--link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH; ?>common-styles-inner.css"-->
+        <link rel="stylesheet" type="text/css" href="<?php echo THIRD_PARTY_PATH; ?>font-awesome-4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo THIRD_PARTY_PATH; ?>bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+
+        <!-- Scripts Required for the page -->
+        <script type="text/javascript" src="<?php echo JS_PATH;?>jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="<?php echo THIRD_PARTY_PATH;?>bootstrap-3.3.2/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="<?php echo THIRD_PARTY_PATH;?>bootbox-4.4.0/bootbox.min.js"></script>
+        <script type="text/javascript" src="<?php echo THIRD_PARTY_PATH; ?>bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+        <script type="text/javascript" src="<?php echo JS_PATH; ?>file-uploader.js"></script>
+
+        <style type="text/css">
+            .container{
+                padding-top:15%;
+            }
+            .profile-pic{
+                width:130px;
+                height:130px;
+                border-radius: 500px;
+                border:1px solid #0044cc;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+                <div class="profile-pic">
+                    <img src="<?=IMG_PATH?>defaultProfile.png"/>
+                </div>
+                <input type="file" name="file2upload" id="file2upload" style="visibility: hidden;"/>
+                <button type="button" class="btn btn-success btn-lg" id="selectFile">Select File 2 Upload</button>
+                <br/>
+                <br/>
+                <br/>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success" id="prof-pic-upload-prog" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <br/>
+                <pre>
+                <div id="show-info">
+
+                </div>
+                </pre>
+        </div>
+        <script type="text/javascript">
+            $('#selectFile').click(function(){
+                $('#file2upload').trigger('click');
+            });
+            $('#file2upload').on('change',function(){
+                uploadProfilePic('file2upload','<?=SITE_PATH?>test/uploadfile')
+            });
+        </script>
+    </body>
+</html>

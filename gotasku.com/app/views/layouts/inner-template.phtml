@@ -1,0 +1,47 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Satyanarayan
+ * Date: 23-04-2015
+ * Time: 15:13
+ */
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title><?php echo APP_TITLE; ?></title>
+    <link rel="icon" type="image/png" href="<?php echo IMG_PATH; ?>fav-icon.png">
+    <link rel="stylesheet" type="text/css" href="<?php echo THIRD_PARTY_PATH; ?>bootstrap-3.3.2/css/bootstrap.min.css">
+    <!--link rel="stylesheet" type="text/css" href="<?php echo THIRD_PARTY_PATH; ?>bootswatch/bootswatch-cosmo.css"-->
+    <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH; ?>pulse.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH; ?>common-styles-inner.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo THIRD_PARTY_PATH; ?>font-awesome-4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo THIRD_PARTY_PATH; ?>bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+
+    <!-- Scripts Required for the page -->
+    <script type="text/javascript" src="<?php echo JS_PATH;?>jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="<?php echo THIRD_PARTY_PATH;?>bootstrap-3.3.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="<?php echo THIRD_PARTY_PATH;?>bootbox-4.4.0/bootbox.min.js"></script>
+    <script type="text/javascript" src="<?php echo THIRD_PARTY_PATH; ?>bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+</head>
+<body>
+    <?php
+        if($this->session->user_data->usr_type_id == EMPLOYEE) {
+            echo $this->partial('partials/menu/menu-employee');
+        }
+        if($this->session->user_data->usr_type_id == EMPLOYER){
+            echo $this->partial('partials/menu/menu-employer');
+        }
+    ?>
+    <div class="breadcrumb">
+        <span class="bredcrumb-homelink"><a href="<?php echo SITE_PATH; ?>">Home</a></span> &raquo; <span class="controller"><a href="javascript:void(0);"><?php echo ucfirst($this->router->getControllerName()); ?></a></span> &raquo; <span class="function"><a href="javascript:void(0);"><?php echo ucfirst($this->router->getActionName()); ?></a></span>
+        <!--span class="breadcrumb-back"><img src="<?php echo IMG_PATH; ?>refresh.png"><a href="">TAKAISIN</a></span-->
+    </div>
+    <div class="container-fluid pagecontent">
+        <?php echo $this->partial($page); ?>
+    </div>
+    <footer>
+        <?php $this->partial('partials/footer'); ?>
+    </footer>
+</body>
+</html>

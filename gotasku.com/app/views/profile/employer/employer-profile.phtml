@@ -1,0 +1,334 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Satyanarayan
+ * Date: 23-04-2015
+ * Time: 18:11
+ */
+//##############################################################
+//This page is using its own FE validations
+//##############################################################
+//print_r($current_user_data);
+?>
+
+<script type="text/javascript">
+    function showMsg(msg,title){
+        title = title || 'Profile';
+        bootbox.alert({
+            'title':title,
+            'message':msg
+        });
+    }
+    $(function(){
+        $.post('<?php echo SITE_PATH; ?>misc/getbusinesstypes','',function(resp){
+            var json_obj = $.parseJSON(resp);
+            $.each(json_obj.response.records,function(){
+                $('#business_types').append('<option value="'+this.id+'"'+(this.id=='<?php echo $current_user_data->business_type; ?>'?' selected="selected"':'')+'>'+this.type_nm+'</option>');
+            });
+        })
+    });
+</script>
+        <form>
+            <div class="row border-bottom">
+                <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Yrityksesi tiedot</h1></div>
+                <div class="col col-lg-6 col-md-6 col-sm-6">
+                    <div class="row formfield-group border">
+                        <div class="col col-lg-8 col-md-8 col-sm-8 border">
+                            <div class="formgroup-top-labels"><label class="form-label">YRITYKSEN NIMI</label><span class="validation required" for="business_name"></span></div>
+                            <input type="text" class="form-control update validate req" placeholder="esim. Robert's Cofee" field="business_name" caption="YRITYKSEN NIMI" id="business_name" name="business_name" field="business_name" value="<?php echo $current_user_data->bsnss_nm; ?>" oldval="<?php echo $current_user_data->bsnss_nm; ?>"/>
+                        </div>
+                        <div class="col col-lg-4 col-md-4 col-sm-4 border">
+                            <div class="formgroup-top-labels"><label class="form-label">TOIMIALA</label><span class="validation required" for="business_types"></span></div>
+                            <select class="form-control update update validate req" id="business_types" oldval="<?php echo $current_user_data->business_type; ?>" field="business_type" caption="TOIMIALA">
+                                <option value="0">Kahvilat</option>
+                            </select>
+                        </div>
+                        <div class="col col-lg-8 col-md-8 col-sm-8 border">
+                            <div class="formgroup-top-labels"><label class="form-label">KÄYNTIOSOITE</label><span class="validation required" for="addr"></span></div>
+                            <input type="text" class="form-control update validate req" placeholder="esim. 12/A Malminkaatu, Helsinki" id="addr" name="addr" field="contact_addr" caption="KÄYNTIOSOITE" value="<?php echo $current_user_data->cntct_addr; ?>" oldval="<?php echo $current_user_data->cntct_addr; ?>"/>
+                        </div>
+                        <div class="col col-lg-4 col-md-4 col-sm-4 border">
+                            <div class="formgroup-top-labels"><label class="form-label">POSTINUMERO</label><span class="validation required" for="postalcode"></span></div>
+                            <input type="text" class="form-control update validate req" placeholder="esim. 00800" id="postalcode" name="postalcode" field="postalcode" caption="POSTINUMERO" value="<?php echo $current_user_data->pstl_cd; ?>" oldval="<?php echo $current_user_data->pstl_cd; ?>"/>
+                        </div>
+                        <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                            <div class="formgroup-top-labels"><label class="form-label">PUHELINNUMERO</label><span class="validation required" for="phone"></span></div>
+                            <input type="text" class="form-control update validate req numeric" placeholder="PUHELINNUMERO" id="phone" name="phone" field="empr_phone" caption="PUHELINNUMERO" value="<?php echo $current_user_data->cntct_num2; ?>" oldval="<?php echo $current_user_data->cntct_num2; ?>"/>
+                        </div>
+                        <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                            <div class="formgroup-top-labels"><label class="form-label">KOTISIVU</label><span class="validation" for="website"></span></div>
+                            <input type="text" class="form-control validate update" placeholder="esim. www.foundza.com"  id="website" name="website" field="website" caption="KOTISIVU" value="<?php echo $current_user_data->web_site; ?>" oldval="<?php echo $current_user_data->web_site; ?>"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row border-bottom">
+                <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Omat tietosi</h1></div>
+                <div class="col col-lg-6 col-md-6 col-sm-6">
+                    <div class="row formfield-group border">
+                        <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                            <div class="formgroup-top-labels"><label class="form-label">ETUNIMI</label><span class="validation required" for="fnm"></span></div>
+                            <input type="text" class="form-control validate req update" placeholder="etunimi" id="fnm" name="fnm" field="fnm" caption="ETUNIMI" value="<?php echo $current_user_data->cntct_prsn_fnm; ?>" oldval="<?php echo $current_user_data->cntct_prsn_fnm; ?>"/>
+                        </div>
+                        <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                            <div class="formgroup-top-labels"><label class="form-label">SUKUNIMI</label><span class="validation required" for="lnm"></span></div>
+                            <input type="text" class="form-control validate req update" placeholder="sukunimi"  id="lnm" name="lnm" field="lnm" caption="SUKUNIMI" value="<?php echo $current_user_data->cntct_prsn_lnm; ?>" oldval="<?php echo $current_user_data->cntct_prsn_lnm; ?>"/>
+                        </div>
+                        <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                            <div class="formgroup-top-labels"><label class="form-label">PUHELINNUMERO</label><span class="validation required" for="phone"></span></div>
+                            <input type="text" class="form-control validate req update" placeholder="PUHELINNUMERO" id="phone" name="phone" field="phone" caption="PUHELINNUMERO" value="<?php echo $current_user_data->cntct_num1; ?>" oldval="<?php echo $current_user_data->cntct_num1; ?>"/>
+                        </div>
+                        <div class="col col-lg-6 col-md-6 col-sm-6 border">
+                            <div class="formgroup-top-labels"><label class="form-label">SÄHKÖPOSTIOSOITE</label><span class="validation required" for="email"></span></div>
+                            <input type="text" class="form-control validate req update" placeholder="you@somewhere.com" id="email" name="email" field="email" caption="SÄHKÖPOSTIOSOITE" value="<?php echo $current_user_data->email1; ?>" oldval="<?php echo $current_user_data->email1; ?>"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row border-bottom">
+                <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Yrityksen kuvaus</h1></div>
+                <div class="col col-lg-6 col-md-6 col-sm-6">
+                    <div class="row formfield-group border">
+                        <div class="col col-lg-12 col-md-12 col-sm-12 border">
+                            <div class="formgroup-top-labels"><label class="form-label">KUVAUS</label><span class="validation required" for="description"></span></div>
+                            <textarea class="form-control validate update req count" maxlength="500" placeholder="Kerro itsestäsi lyhyesti ja ytimekkäästi, sinulla on 500 merkkiä käytettävänäsi!" rows="9" name="description" id="description" caption="KUVAUS" field="description"/><?php echo $current_user_data->comp_desc ? $current_user_data->comp_desc : ''; ?></textarea>
+                            <div class="formgroup-top-labels"><span class="validation counter" countfor="description">0/500</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--div class="row border-bottom">
+                <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Kuvat</h1></div>
+                <div class="col col-lg-6 col-md-6 col-sm-6">
+                    <div class="row formfield-group border">
+                        <div class="col col-lg-12 col-md-12 col-sm-12 border">
+                            <div class="formgroup-top-labels"><label class="form-label">KUVAT</label><span class="validation"></span></div>
+                            <div style="text-align: center;"><img src="<?php echo IMG_PATH.(($current_user_data->profile_pic)?'profiles/'.$current_user_data->profile_pic:'defaultProfile.png');?>"><br/><br/></div>
+                            <div class="formgroup-top-labels"><span>Lataa valokuva laitteeeltasi tai valitse se Facebookista</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div-->
+            <div class="row border-bottom">
+                <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Laskutustiedot</h1></div>
+                <div class="col col-lg-6 col-md-6 col-sm-6">
+                    <br/><br/>
+                    <div><input type="checkbox" class="custom-checkbox" id="addr_same" name="addr_same"<?php echo $current_user_data->same_billing_addr ? ' checked="checked"' : '' ?>/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <label for="addr_same" class="checkbox-label">LASKUTUSOSOITE ON SAMA KUIN KÄYNTIOSOITE</label></div>
+
+                        <div class="row formfield-group border b-group">
+                            <div class="col col-lg-12 col-md-12 col-sm-12 border">
+                                <div class="formgroup-top-labels"><label class="form-label">YRITYKSEN NIMI</label><span class="validation required" for="billing_org_name"></span></div>
+                                <input type="text" class="form-control validate req update b" placeholder="esim. Roberts Cofee" id="billing_org_name" name="billing_org_name" field="billing_org_name" caption="YRITYKSEN NIMI (Laskutustiedot)" value="<?php echo $current_user_data->billing_name; ?>" oldval="<?php echo $current_user_data->billing_name; ?>"/>
+                            </div>
+                            <div class="col col-lg-8 col-md-8 col-sm-8 border">
+                                <div class="formgroup-top-labels"><label class="form-label">LASKUTUSOSOITE</label><span class="validation required"for="billing_address"></span></div>
+                                <input type="text" class="form-control validate req update b" placeholder="esim. Mannerheimintie" id="billing_address" name="billing_addrs" field="billing_address" caption="LASKUTUSOSOITE (Laskutustiedot)" value="<?php echo $current_user_data->billing_addr; ?>" oldval="<?php echo $current_user_data->billing_addr; ?>"/>
+                            </div>
+                            <div class="col col-lg-4 col-md-4 col-sm-4 border">
+                                <div class="formgroup-top-labels"><label class="form-label">POSTINUMERO</label><span class="validation required" for="billing_postal_code"></span></div>
+                                <input type="text" class="form-control validate req update b" placeholder="esim. 00800" id="billing_postal_code" name="billing_postal_code" field="billing_postal_code" caption="POSTINUMERO (Laskutustiedot)" value="<?php echo $current_user_data->billing_pstl_cd; ?>" oldval="<?php echo $current_user_data->billing_pstl_cd; ?>"/>
+                            </div>
+                            <div class="col col-lg-12 col-md-12 col-sm-12 border">
+                                <div class="formgroup-top-labels"><label class="form-label">SÄHKÖPOSTIOSOITE</label><span class="validation required" for="business_email"></span></div>
+                                <input type="text" class="form-control validate req update email b" placeholder="you@somewhere.com" id="business_email" name="business_email" field="business_email" caption="SÄHKÖPOSTIOSOITE (Laskutustiedot)" value="<?php echo $current_user_data->billing_email; ?>" oldval="<?php echo $current_user_data->billing_email; ?>"/>
+                            </div>
+                        </div>
+
+                    <div><input type="checkbox" class="custom-checkbox" id="bill_by_email"<?php echo $current_user_data->bill_by_email ? ' checked="checked"' : '' ?>/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="bill_by_email" class="checkbox-label">HALUAN LASKUT SÄHKÖPOSTILLA</label></div>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col col-lg-12 col-md-12 col-sm-12 center">
+                    <button type="button" class="btn btn-success btn-lg tasku-form-btn">Tallenna muutokset</button>
+                    <button type="button" class="btn btn-default btn-lg tasku-form-btn">Palaa tallentamatta</button>
+                </div>
+            </div>
+        </form>
+        <script type="text/javascript">
+            $(function(){
+                $('.required').text('VAADITAAN');
+                counterSet();
+                <?php //While page loading the validation fields ?>
+                $('.validate').each(function(){
+                    if($(this).hasClass('req') && $(this).val()!=''){
+                        $('span.validation[for="'+$(this).attr('id')+'"]').text('OK').css('color','#0A0');
+                    }
+                });
+                $('.update').blur(function() {
+                    //alert($(this).attr('id'));
+                    var ele = $(this);
+                    if (ele.val() != ele.attr('oldval')) {
+                        if (validate(ele)) {
+                            $.post('<?php echo SITE_PATH; ?>profile/updateemployer', {
+                                    'f':ele.attr('field'),
+                                    'v':ele.val()
+                                },
+                                function(resp)
+                                {
+                                    //alert(resp);
+                                    try {
+                                        var json_resp = $.parseJSON(resp);
+                                        if (json_resp.response.code == '0x0000') {
+                                            ele
+                                                .css({'background':'#DDEEDD'})
+                                                .attr('oldval',ele.val());
+                                            setTimeout(function(){
+                                                ele.css({'background':'#FFF'});
+                                            },2000)
+                                        } else {
+                                            if(ele.prop('tagName').toLowerCase()!='textarea')
+                                                alert(json_resp.response.resp_msg);
+                                        }
+                                    } catch(ex) {
+                                        alert('Some technical issue is preventing the process... Please contact Admin. ' + ex.message);
+                                    }
+                            });
+                        }
+
+                    }
+                });
+
+                $('#addr_same').on('change',function(){
+                    if($('#addr_same').is(':checked')){
+                        $('.b').attr('readonly','readonly');
+
+                        $('#billing_org_name').val($('#business_name').val());
+                        $('#billing_address').val($('#addr').val());
+                        $('#billing_postal_code').val($('#postalcode').val());
+                        $('#business_email').val($('#email').val());
+
+                        if(confirm("The billiing address is made same as contact address? Do you want to update the changes?")){
+                            $.post('<?php echo SITE_PATH; ?>profile/updateemployerbillingdetails',{
+                                'o':$('#billing_org_name').val(),
+                                'a':$('#billing_address').val(),
+                                'p':$('#billing_postal_code').val(),
+                                'e':$('#business_email').val(),
+                                's':1
+                            },function(resp){
+
+                                var json_data = $.parseJSON(resp);
+                                if(json_data.response.code == '0x0000'){
+                                    $('#billing_org_name').attr('oldval',$('#billing_org_name').val());
+                                    $('#billing_address').attr('oldval',$('#billing_address').val());
+                                    $('#billing_postal_code').attr('oldval',$('#billing_address').val());
+                                    $('#business_email').attr('oldval',$('#billing_address').val());
+                                    $('.b-group .col').css('background','#EEFEEE');
+                                    $('#addr_same').attr('checked','checked');
+                                    setTimeout(function(){
+                                        $('.b-group .col').css('background','#fff');
+                                    },2000);
+                                }
+                            });
+                        }
+                        else{
+                            $('#billing_org_name').val($('#billing_org_name').attr('oldval'));
+                            $('#billing_address').val($('#billing_address').attr('oldval'));
+                            $('#billing_postal_code').val($('#billing_address').attr('oldval'));
+                            $('#business_email').val($('#billing_address').attr('oldval'));
+                            $('#addr_same').removeAttr('checked');
+                        }
+                    }else{
+                        $('.b').removeAttr('readonly');
+                        $.post('<?php echo SITE_PATH; ?>profile/updateemployerbillingdetails',{
+                            'o':$('#billing_org_name').val(),
+                            'a':$('#billing_address').val(),
+                            'p':$('#billing_postal_code').val(),
+                            'e':$('#business_email').val(),
+                            's':0
+                        },function(resp){
+                            var json_data = $.parseJSON(resp);
+                            if(json_data.response.code == '0x0000'){
+                                $('#billing_org_name').attr('oldval',$('#billing_org_name').val());
+                                $('#billing_address').attr('oldval',$('#billing_address').val());
+                                $('#billing_postal_code').attr('oldval',$('#billing_address').val());
+                                $('#business_email').attr('oldval',$('#billing_address').val());
+                                $('.b-group .col').css('background','#EEFEEE');
+                                $('#addr_same').removeAttr('checked');
+                                setTimeout(function(){
+                                    $('.b-group .col').css('background','#fff');
+                                },2000);
+                            }
+                        });
+                    }
+                });
+                $('#bill_by_email').on('change',function(){
+
+                    var v = 0;
+                    var ele = $(this);
+                    if($(this).is(':checked')){
+                        v=1;
+                    }else{
+                        v=0;
+                    }
+                    $.post('<?php echo SITE_PATH; ?>profile/updateemployerbillingdetails',{
+                        'be':1,
+                        'v':v
+                    },function(resp){
+
+                        var json_resp = $.parseJSON(resp);
+                        if(json_resp.response.code=='0x0000') {
+                            $('label[for="'+ele.attr('id')+'"]').css({'background':'#EEFEEE'});
+                            setTimeout(function(){
+                                $('label[for="'+ele.attr('id')+'"]').css({'background':'#FFF'});
+                            },2000);
+                        }
+                    });
+                });
+                if($('#addr_same').is(':checked')){
+                    $('.b').attr('readonly','readonly');
+                }
+            });
+            function counterSet(){
+                //Where ever counter needs to be applied
+                $('.validate.count').on('input',function(){
+                    //alert($('.counter[countfor="'+$(this).attr('id')+'"]').text());
+                    $('.counter[countfor="'+$(this).attr('id')+'"]').text($(this).val().length +'/'+$(this).attr('maxlength'));
+                });
+
+                $('.validate.count').each(function(){
+                    //alert($('.counter[countfor="'+$(this).attr('id')+'"]').text());
+                    $('.counter[countfor="'+$(this).attr('id')+'"]').text($(this).val().length +'/'+$(this).attr('maxlength'));
+                });
+            }
+            function validate(ele){
+                if(ele.hasClass('validate')){
+                    if(ele.hasClass('req')){
+                        if(ele.prop('tagName').toLowerCase()=="select"){
+                            if(ele.val()==0) {
+                                $('span.validation[for="'+ele.attr('id')+'"]').css({'font-weight':'bold','color':'#D00'}).text('VAADITAAN');
+                                //alert('Please Select a value for '+ele.attr('caption'));/* ele.focus();*/
+                                return false;
+                            }
+                            else{
+                                $('span.validation[for="'+ele.attr('id')+'"]').css({'padding':'1px','font-weight':'bold','color':'#090'}).text('OK');
+                                return true;
+                            }
+                        }else{
+                            if(ele.hasClass('email')){
+                                if(!isEmailValid(ele.val())){
+                                    alert('Please provide a valid email id in '+ele.attr('caption'));
+                                    return false;
+                                }
+                            }
+                            if($.trim(ele.val())=='') {
+                                $('span.validation[for="'+ele.attr('id')+'"]').css({'font-weight':'bold','color':'#D00'}).text('VAADITAAN');
+                                return false;
+                            }else{
+                                $('span.validation[for="'+ele.attr('id')+'"]').css({'padding':'1px','font-weight':'bold','color':'#090'}).text('OK');
+                                return true;
+                            }
+                        }
+                    }
+
+                    return true;
+                }else{
+                    return true;
+                }
+            }
+            function isEmailValid(email){
+                var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                return regex.test(email);
+            }
+
+        </script>

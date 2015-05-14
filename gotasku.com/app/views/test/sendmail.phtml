@@ -1,0 +1,68 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Satyanarayan
+ * Date: 25-04-2015
+ * Time: 12:54
+ */
+?>
+<html>
+    <html>
+        <title>(PHPMailer) SMTP Mail Tester</title>
+        <style type="text/css">
+            *,html,body{
+                font-family: 'Lucida Sans', 'arial';
+            }
+            input[type="text"],textarea{
+                border:1px solid #ddd;
+            }
+            button{
+                padding:20px;
+            }
+        </style>
+    </html>
+    <body>
+        <form method="post">
+            <table width="100%">
+                <tr>
+                    <td width="50">To</td>
+                    <td><input type="text" name="to" style="width: 100%" value="satyan.iyengar@outlook.com"></td>
+                </tr>
+                <tr>
+                    <td width="50">CC</td>
+                    <td><input type="text" name="cc" style="width: 100%"></td>
+                </tr>
+                <tr>
+                    <td width="50">BCC</td>
+                    <td><input type="text" name="bcc" style="width: 100%"></td>
+                </tr>
+                <tr>
+                    <td width="50">Subject</td>
+                    <td><input type="text" name="subject" style="width: 100%" value="hi"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Message</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><textarea style="width:100%; height:300px" name="message_body">This is a test mail for testing PHP Mailer</textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="right">
+                        <span class="message" id="msg">
+                            <?php
+                                echo (isset($message)?$message:'');
+                                echo "<script>
+                                        setTimeout(function(){
+                                            document.getElementById('msg').innerHTML = '';
+                                        },2000);
+                                    </script>";
+
+                            ?></span>
+                        <button name="btnSend">Send Mail</button>
+                        <button type="reset" name="btnDiscard">Discard</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>

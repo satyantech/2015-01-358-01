@@ -1,0 +1,129 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Satyanarayan
+ * Date: 20-04-2015
+ * Time: 17:07
+ */
+?>
+    <div class="login-div">
+            <div class="login-tabs">
+                <ul>
+                    <li link="login-form"><span class="arrow  animated infinite pulse"><img src="<?php echo IMG_PATH; ?>indication-arrow-left.png"/></span>Kirjaudu Sisään (Sign In)</li>
+                    <li link="registration-form"><span class="arrow  animated infinite pulse"><img src="<?php echo IMG_PATH; ?>indication-arrow-right.png"/></span>Rekisteröidy (Sign Up)</li>
+                </ul>
+            </div>
+            <br/>
+            <div class="login-form" id="login-form">
+                <form method="post" id="frmLogin">
+                    <div class="form-group">
+                        <input type="email" name="User Name" id="username" required="required" class="form-control login-control top" placeholder="Rekisteröity Sähköposti" value="aku@foundza.com">
+                        <input type="password" name="Password" id="password" required="required" class="form-control login-control bottom" placeholder="Salasana" value="test123">
+                    </div>
+                    <div class="divider">
+                        <button type="button" class="btn btn-lg btn-success btn-block" name="btnLogin" id="btnLogin">Esittää</button>
+                    </div>
+                </form>
+            </div>
+            <div class="login-form" id="registration-form">
+                <form method="post" id="frmRegister">
+                    <div class="registration-box">
+                        <div class="my-field-group border" style="width:100%">
+                            <div class="my-form-label">Olet?</div>
+                            <select class="my-form-control" name="Account Type" id="account_type">
+                                <option value="2">Työntekijä</option>
+                                <option value="3">Työnantaja</option>
+                            </select>
+                        </div>
+                        <div class="my-field-group right-border bottom-border left-border" style="width:49.9%">
+                            <div class="my-form-label">Etunimi</div>
+                            <input type="text" required="required" class="my-form-control" placeholder="Etunimi" name="First Name" id="first_name"/>
+                        </div>
+                        <div class="my-field-group right-border bottom-border" style="width:49.9%; float:right;">
+                            <div class="my-form-label">Sukunimi</div>
+                            <input type="text" required="required" class="my-form-control" placeholder="Sukunimi" name="Last Name" id="sur_name"/>
+                        </div>
+                        <div class="my-field-group right-border bottom-border left-border" style="width:100%">
+                            <div class="my-form-label">Sähköposti</div>
+                            <input type="email" required="required"  class="my-form-control" placeholder="sähköposti" name="Email ID" id="email"/>
+                        </div>
+                        <div class="my-field-group right-border bottom-border left-border" style="width:100%">
+                            <div class="my-form-label">Käsipuhelin</div>
+                            <input type="number" required="required"  class="my-form-control cellphone" placeholder="käsipuhelin"  pattern="[0-9]*" id="cellphone" name="Mobile" size="10" maxlength="10"/>
+                        </div>
+                        <div class="my-field-group right-border bottom-border left-border" style="width:100%">
+                            <div class="my-form-label">Salasana</div>
+                            <input type="password" required="required"  class="my-form-control" placeholder="Salasana" name="Password" id="password"/>
+                        </div>
+
+                    </div>
+                    <br/>
+                    <button type="button" name="btnRegUser" id="btnRegUser" class="btn btn-lg btn-block btn-success">Rekisteröidy</button>
+                    <br/>
+                </form>
+            </div>
+    </div>
+    <script type="text/javascript" src="<?php echo JS_PATH;?>myvalidator.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $('#login-form').fadeIn();
+            $('.login-tabs ul li').first().addClass('active').find('.arrow').fadeIn();
+            $('.login-tabs ul li').click(function(){
+                $('.login-tabs ul li').removeClass('active');
+                $(this).addClass('active');
+                $('.login-form,.arrow').hide();
+                $('#'+$(this).attr('link')).fadeIn();
+                $(this).find('.arrow').fadeIn();
+            });
+            //$('.login-tabs ul li').last().trigger('click');
+            /*$('#btnLogin').click(function(){
+                msg('<span class="pulse-preloader message" style="margin-top:-10px"></span><span style="margin-left:50px">Odota, kun olet kirjautuneena sisään....</span>');
+            });*/
+            $('#btnLogin').click(function(){
+                 if(validateForm('frmLogin')){
+                     $.post('<?php echo SITE_PATH; ?>login/authenticate',{'u':$('#username').val(),'p':$('#password').val()},function(resp){
+                         try {
+                             var resObj = $.parseJSON(resp);
+                             if (resObj.response.code == '0x0000') {
+                                 bootbox.alert({
+                                     title: 'Gotasku!',
+                                     message: '<span class="pulse-preloader message" style="margin-top:-10px"></span><span style="margin-left:50px">' + resObj.response.resp_msg + '</span><br/>'
+                                 });
+                                 setTimeout(function() {
+                                     window.location = window.location;
+                                 },2000);
+                             } else {
+                                 msg('<span style="color:red;">' +  resObj.response.resp_msg + '</span>');
+                             }
+                         } catch (err) {
+                             msg('<span style="color:red;">JScript Exception:'+ err.message + '</span>');
+                         }
+                     });
+                 }
+            });
+            $('#btnRegUser').click(function(){
+                if(validateForm('frmRegister')) {
+                    $.post('<?php echo SITE_PATH; ?>login/registeruser', {
+                        'atype': $('#account_type').val(),
+                        'fnm': $('#first_name').val(),
+                        'lnm': $('#sur_name').val(),
+                        'mobile': $('#cellphone').val(),
+                        'email': $('#email').val(),
+                        'pwd': $('#password').val()
+                    }, function (resp) {
+                        try {
+                            var resObj = $.parseJSON(resp);
+                            if (resObj.response.code == '0x0000') {
+                                msg('<span style="color:green;">'+resObj.response.resp_msg+'</span>');
+                                $('#frmRegister').trigger('reset');
+                            } else {
+                                msg('<span style="color:red;">' + resObj.response.resp_msg + '<span>');
+                            }
+                        } catch (err) {
+                            msg('<span style="color:red;">'+err.message + '</span><br/><span style="color:red;">' + resp + '</span>');
+                        }
+                    });
+                }
+            });
+        });
+    </script>

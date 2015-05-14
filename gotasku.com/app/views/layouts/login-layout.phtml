@@ -1,0 +1,28 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Satyanarayan
+ * Date: 20-04-2015
+ * Time: 17:09
+ */
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><?php echo APP_TITLE; ?></title>
+        <link rel="icon" type="image/png" href="<?php echo IMG_PATH; ?>fav-icon.png">
+        <link rel="stylesheet" type="text/css" href="<?php echo THIRD_PARTY_PATH; ?>bootstrap-3.3.2/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH; ?>common-styles.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH; ?>login-styles.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH; ?>pulse.css">
+
+        <!-- Scripts Required for the page -->
+        <script type="text/javascript" src="<?php echo JS_PATH;?>jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="<?php echo THIRD_PARTY_PATH;?>bootstrap-3.3.2/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="<?php echo THIRD_PARTY_PATH;?>bootbox-4.4.0/bootbox.min.js"></script>
+        <script type="text/javascript" src="<?php echo JS_PATH;?>login-script.js"></script>
+    </head>
+    <body>
+        <?php echo $this->getContent(); ?>
+    </body>
+</html>
