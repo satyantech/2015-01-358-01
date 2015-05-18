@@ -59,7 +59,23 @@ class JobController extends \Phalcon\Mvc\Controller
         }
     }
     public function updateaJobAction(){
-
+        $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
+        if($this->request->isAjax()){
+            $params = array(
+                'a'=>'db-update',
+                'sa'=>'update-job',
+                'usr_id'=>$this->session->user_data->usr_id,
+                'ld'=>$this->request->get('ld'),
+                'sd'=>$this->request->get('sd'),
+                'ed'=>$this->request->get('ed'),
+                'ww'=>$this->request->get('ww'),
+                'ew'=>$this->request->get('ew'),
+                'tl'=>$this->request->get('tl'),
+                'ds'=>$this->request->get('ds'),
+                'rid'=>$this->request->get('id')
+            );
+            echo APICall::execute($params);
+        }
     }
     private function getPostedJobs()
     {
@@ -70,9 +86,34 @@ class JobController extends \Phalcon\Mvc\Controller
                 'usr_id' => $this->session->user_data->usr_id
             );
             return APICall::execute($params);
-
         } catch (Exception $e) {
             return json_encode(array('response' => array('code' => '0x00EX', 'resp_msg' => 'Error while retrieving records')));
+        }
+    }
+
+    public function getJobDataAction(){
+        $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
+        if($this->request->isAjax()){
+                $params = array(
+                    'a'     =>  'db-get',
+                    'sa'    =>  'get-job-latest-data',
+                    'rid'   => $this->request->get('rid'),
+                    'usr_id'=> $this->session->user_data->usr_id
+                );
+                echo APICall::execute($params);
+        }
+    }
+    public function deleteJobAction(){
+        $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
+        if($this->request->isAjax()){
+            $params = array(
+                'a'=>'db-update',
+                'sa'=>'job-delete-record',
+                'rid'=>$this->request->get('rid'),
+                'dt'=>$this->request->get('dt'),
+                'usr_id'=>$this->session->user_data->usr_id
+            );
+            echo APICall::execute($params);
         }
     }
 }

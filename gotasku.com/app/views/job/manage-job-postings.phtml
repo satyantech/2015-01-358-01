@@ -20,8 +20,8 @@
 <h1>Luettelo Työpaikat Lähetetty</h1>
 
 <div class="job-listing">
-<?php foreach($records as $record){ ?>
-    <div class="row job-record<?php echo 1>6?' disabled':''; ?>">
+<?php if(isset($records) && $records){foreach($records as $record){ ?>
+    <div class="row job-record" rid="<?php echo $record->JOB_ID;?>">
         <div class="col col-lg-8 col-md-8 col-sm-8 job-record-heading">
             <?php if($record->IS_ACTIVE){ ?>
                 <a href="javascript:void(0);" class="label label-success status-active" title="This job is open" data-toggle="tooltip"><i class="fa fa-check-circle"></i></a>
@@ -30,16 +30,18 @@
             <?php } ?>
             <a class="posted-on label label-default" rid="<?php echo $record->JOB_ID;?>" field="posted-on" title="Date, Posted on" data-toggle="tooltip"><?php echo date('d-m-Y',strtotime($record->POSTED_ON)); ?></a>&nbsp;
             <a class="job-type label label-success" rid="<?php echo $record->JOB_ID;?>" field="job-type"  title="Job Type" data-toggle="tooltip"><?php echo $record->JOB_TYPE; ?></a>&nbsp;
-            <a class="last-date editable  label label-default cal" rid="<?php echo $record->JOB_ID;?>" field="last-date"  title="Last Date for Applying to this job" data-toggle="tooltip">Last Date: <?php echo $record->APPLY_LAST_DATE; ?></a>
-            <a class="start-date editable label label-default cal" rid="<?php echo $record->JOB_ID;?>" field="start-date"  title="When the job gets started" data-toggle="tooltip">Start Date: <?php echo date('d-m-Y',strtotime($record->START_DATE)); ?></a>
-            <a class="end-date editable label label-default cal" rid="<?php echo $record->JOB_ID;?>" field="end-date"  title="What is the last date for the job" data-toggle="tooltip">End Date: <?php echo date('d-m-Y',strtotime($record->END_DATE)); ?></a>
-            <a class="wage label editable label-default" rid="<?php echo $record->JOB_ID;?>" field="wage"  title="What is the hourly wage the employee gets / employer gives" data-toggle="tooltip" min-wage="<?php echo $record->EMP_GET; ?>" max-wage="<?php echo $record->EMPR_GIVE; ?>">Wage: <?php echo $record->EMP_GET.'/'.$record->EMPR_GIVE; ?> /h</a>
+            <a class="last-date editable  label label-danger cal" rid="<?php echo $record->JOB_ID;?>" field="last-date"  title="Last Date for Applying to this job" data-toggle="tooltip"><?php echo date('d-m-Y',strtotime($record->APPLY_LAST_DATE)); ?></a>
+            <a class="start-date editable label label-info cal" rid="<?php echo $record->JOB_ID;?>" field="start-date"  title="When the job gets started" data-toggle="tooltip"><?php echo date('d-m-Y',strtotime($record->START_DATE)); ?></a>
+            <a class="end-date editable label label-info cal" rid="<?php echo $record->JOB_ID;?>" field="end-date"  title="What is the last date for the job" data-toggle="tooltip"><?php echo date('d-m-Y',strtotime($record->END_DATE)); ?></a>
+            <a class="wage label editable label-success" rid="<?php echo $record->JOB_ID;?>" field="wage"  title="What is the hourly wage the employee gets / employer gives" data-toggle="tooltip" min-wage="<?php echo $record->EMP_GET; ?>" max-wage="<?php echo $record->EMPR_GIVE; ?>">[<?php echo $record->EMP_GET.'/'.$record->EMPR_GIVE; ?>]/h</a>
         </div>
         <div class="col col-lg-4 col-md-4 col-sm-4 job-record-options">
             <a href="javascript:void(0);" class="label label-md label-success application-count" title="# of Applications Received" data-toggle="tooltip" id="" rid="<?php echo $record->JOB_ID;?>"><?php echo $record->APPLICATIONS_RECEIVED; ?></a> |
-            <a href="javascript:void(0);" class="label label-warning edit enable" title="Edit" data-toggle="tooltip" id="" rid="<?php echo $record->JOB_ID;?>"><i class="fa fa-pencil"></i></a> |
-            <!--a href="javascript:void(0);" class="label label-danger delete" title="Delete" data-toggle="tooltip" id="" rid="<?php echo $record->JOB_ID;?>"><i class="fa fa-times"></i></a-->
-            <a href="javascript:void(0);" class="label label-info popup" title="Full detais in a popup screen" data-toggle="tooltip" id="" rid="<?php echo $record->JOB_ID;?>"><i class="fa fa-external-link"></i></a>
+            <?php if($record->IS_ACTIVE){ ?>
+                <a href="javascript:void(0);" class="label label-warning edit enable" title="Edit" data-toggle="tooltip" id="" rid="<?php echo $record->JOB_ID;?>"><i class="fa fa-pencil"></i></a>
+                <a href="javascript:void(0);" class="label label-danger delete" title="Delete" data-toggle="tooltip" id="" rid="<?php echo $record->JOB_ID;?>"><i class="fa fa-times"></i></a> |
+            <?php } ?>
+            <!--a href="javascript:void(0);" class="label label-info popup" title="Full detais in a popup screen" data-toggle="tooltip" id="" rid="<?php echo $record->JOB_ID;?>"><i class="fa fa-external-link"></i></a-->
             <a href="javascript:void(0);" class="label label-info info" title="Show Description" data-toggle="tooltip" id="" rid="<?php echo $record->JOB_ID;?>"><i class="fa fa-info-circle"></i></a>
             <?php if($record->IS_ACTIVE){ ?>
                 <a href="javascript:void(0);" class="label label-danger status-deactivate" title="Stop intake of applications" data-toggle="tooltip" rid="<?php echo $record->JOB_ID;?>"><i class="fa fa-ban"></i></a>
@@ -49,12 +51,12 @@
             <a class="heading-text editable" field="job-title" rid="<?php echo $record->JOB_ID;?>"><?php echo $record->JOB_TITLE ?></a>
         </div>
         <div class="col col-lg-12 col-md-12 col-sm-12 job-record-Info">
-            <div class="job-desc editable text-area" field="job_desc" rid="<?php echo $record->JOB_ID; ?>">
-                <?php echo $record->DESC_LONG; ?>
-            </div>
+            <div class="job-desc editable text-area" field="job_desc" rid="<?php echo $record->JOB_ID; ?>"><?php echo $record->DESC_LONG; ?></div>
             <div class="edit-action-controls" rid="<?php echo $record->JOB_ID;?>" style="text-align: right"></div>
         </div>
     </div>
+<?php }}else{ ?>
+    <span class="heading-text">No Records....</span>
 <?php } ?>
 </div>
 <style type="text/css">
@@ -62,15 +64,11 @@
         font-weight:100;
         font-size:12px;
     }
-    .edit-form-control{
-        display: block;
-        font-weight:100;
-        font-size:12px;
+    .edit-form-fields{
         padding:2px;
-        width:100%;
-        outline: none;
-        border:1px solid #eee;
-        height:18px;
+        background: #EFEFEF;
+        border:1px solid #CCC;
+        font-size:12px;
         color:#000;
     }
 </style>
@@ -78,15 +76,21 @@
 <script type="text/javascript">
     $(function(){
         $('[data-toggle="tooltip"]').tooltip();
-        $('input.cal').datepicker();
+        $('input.cal').datepicker({
+            /*orientation: "bottom left",*/
+            'daysOfWeekDisabled': "0,6",
+            'calendarWeeks': true,
+            'autoclose': true,
+            'todayHighlight': true,
+            'format':'dd-mm-yyyy'
+        });
         $('.info').click(function(){
-            $('.job-desc').hide();
-            var ri = $(this).attr('rid');
-            var desc = $('.job-desc[rid="'+ri+'"]');
-            if(!desc.is(':visible')) desc.slideDown();
+
+            var rid = $(this).attr('rid');
+            var desc = $('.job-desc[rid="'+rid+'"]');
+            if(!desc.is(':visible')) {$('.job-desc').hide();desc.slideDown();}
             else desc.slideUp();
         });
-
         $('.edit').click(function(){
             if($(this).hasClass('enable')) {
                 var rid = $(this).attr('rid');
@@ -94,50 +98,126 @@
                 editRecord(rid);
             }
         });
+        $('.delete').click(function(){
+
+                var rid = $(this).attr('rid');
+                if(confirm('You are abount to delete the job: "'+ $('.heading-text[rid="'+rid+'"]').text()+'".\n Do you want to Proceed?')) {
+                    deleteRecord(rid,0);
+                }
+        });
+        $('.status-deactivate').click(function(){
+            var rid = $(this).attr('rid');
+            if(confirm('You are about to deactivate the job: "'+ $('.heading-text[rid="'+rid+'"]').text()+'".\n Do you want to Proceed?')) {
+                deleteRecord(rid,1);
+            }
+        });
+
     });
     function editRecord(rid){
         $('.editable').each(function(){
-            $('.info[rid="'+rid+'"]').trigger('click');
+            if(!$('.job-desc[rid="'+rid+'"]').is(':visible')) {
+                $('.info[rid="' + rid + '"]').trigger('click');
+            }
             var savebtn = '<a class="btn btn-success btn-save"  rid="'+rid+'">Save</a>';
             var cancelbtn = '<a class="btn btn-default btn-cancel"  rid="'+rid+'">Cancel</a>';
 
             $('.edit-action-controls[rid="'+rid+'"]').html(savebtn+' '+cancelbtn);
+
             var ele = $(this);
             var control;
+
             if(ele.hasClass('job-desc')) {
                 control = $('<textarea rid="' + rid + '" field="' + ele.attr('field') + '" class="edit-form-fields">' + ele.html() + '</textarea>');
 
             }
             else {
-                control = $('<input type="text" rid="' + rid + '" field="' + ele.attr('field') + '" class="edit-form-fields" placeholder="' + ele.text() + '">');
+                control = $('<input type="text" rid="' + rid + '" field="' + ele.attr('field') + '" class="edit-form-fields" value="' + ele.text() + '">');
             }
 
-            control.css({'color':'#000','border':'1px solid #eee'});
+           // control.css({'color':'#000','border':'1px solid #eee'});
 
-            if(ele.hasClass('cal')) control.addClass('cal').datepicker();
-            if(ele.hasClass('heading-text') || ele.hasClass('job-desc')) control.css({'width':'100%','margin-top':'10px'});
+            if(ele.hasClass('cal')) control.addClass('cal').datepicker({
+                /*orientation: "bottom left",*/
+                'daysOfWeekDisabled': "0,6",
+                'calendarWeeks': true,
+                'autoclose': true,
+                'todayHighlight': true,
+                'format':'dd-mm-yyyy'
+            });
+            if(ele.hasClass('heading-text') || ele.hasClass('job-desc')) control.css({'width':'100%','margin-top':'10px', 'font-size':'14px'});
             if(ele.hasClass('job-desc')) control.css('min-height','300px');
-            if(ele.hasClass('wage')) control = $('<input type="text" rid="'+rid+'" field="min-wage" class="edit-form-fields" placeholder="'+ele.attr('min-wage')+'" style="width:50px;color:#000;"><input type="text" rid="'+rid+'" field="max-wage" class="edit-form-fields" placeholder="'+ele.attr('max-wage')+'" style="width:50px;color:#000;">');
+            if(ele.hasClass('wage')) control = $('<input type="text" rid="'+rid+'" field="min-wage" class="edit-form-fields wage" value="'+ele.attr('min-wage')+'" style="width:50px;color:#000;"><input type="text" rid="'+rid+'" field="max-wage" class="edit-form-fields wage" value="'+ele.attr('max-wage')+'" style="width:50px;color:#000;">');
             ele.html(control);
             $('.btn-save').click(function(){
-                //TODO: Validations to the form
-               /* var lastDate        =  $('input[filed="last-date"]').val();
-                var startDate       =  $('input[filed="start-date"]').val();
-                var endDate         =  $('input[filed="end-date"]').val();
-                var emp_wage        =  $('input[filed="min-wage"]').val();
-                var empr_wage       =  $('input[filed="max-wage"]').val();
-                var title           =  $('input[filed="job-title"]').val();
-                var desc            =  $('input[filed="job_desc"]').val();
+                try {
+                    //TODO: Validations to the form
+                    var lastDate = $('.edit-form-fields[field="last-date"]').val();
+                    var startDate = $('.edit-form-fields[field="start-date"]').val();
+                    var endDate = $('.edit-form-fields[field="end-date"]').val();
+                    var empWage = $('.edit-form-fields[field="min-wage"]').val();
+                    var emprWage = $('.edit-form-fields[field="max-wage"]').val();
+                    var title = $('.edit-form-fields[field="job-title"]').val();
+                    var desc = $('.edit-form-fields[field="job_desc"]').val();
+                    //bootbox.alert('Description is: '+desc); return;
+                    var rid = $(this).attr('rid');
 
-                $.post('<?php echo SITE_URL; ?>job/updateajob',{},function(resp){
-
-
-                });*/
-
+                    $.post(
+                        '<?php echo SITE_PATH; ?>job/updateajob/',
+                        {'ld': lastDate,'sd': startDate,'ed': endDate,'ww': empWage,'ew': emprWage,'tl': title,'ds': desc,'id': rid},
+                         function (resp) {
+                            //bootbox.alert(resp);
+                             resetForm(rid);
+                         }
+                    );
+                }
+                catch(err){
+                        bootbox.alert(err.message);
+                }
             });
             $('.btn-cancel').click(function(){
-                alert('cancel...')
+                resetForm(rid);
             });
         });
     }
+    function resetForm(rid){
+        $.post('<?php echo SITE_PATH; ?>job/getjobdata/',{'rid':rid},function(resp){
+            try {
+                //alert(resp); return;
+                var json_data = $.parseJSON(resp);
+                if(json_data.response.code=='0x0000'){
+                    $('.editable.last-date[rid="'+rid+'"]').html(json_data.response.record.APPLY_LAST_DATE);
+                    $('.editable.start-date[rid="'+rid+'"]').html(json_data.response.record.START_DATE);
+                    $('.editable.end-date[rid="'+rid+'"]').html(json_data.response.record.END_DATE);
+                    $('.editable.wage[rid="'+rid+'"]').html('['+json_data.response.record.EMP_GET+'/'+json_data.response.record.EMPR_GIVE+'] /h');
+                    $('.application-count[rid="'+rid+'"]').html(json_data.response.APPLICATIONS_RECEIVED);
+                    $('.editable.heading-text[rid="'+rid+'"]').html(json_data.response.record.JOB_TITLE);
+                    $('.editable.job-desc[rid="'+rid+'"]').html(json_data.response.record.DESC_LONG);
+                    $('.edit-action-controls[rid="'+rid+'"]').html('');
+                    $('.edit[rid="'+rid+'"]').removeClass('label-default disable').addClass('enable label-warning');
+                }else{
+                    window.location = window.location;
+                }
+            }catch(err){
+                bootbox.alert('Exception: '+err.message);
+            }
+        });
+    }
+    function deleteRecord(rid,deleteType){
+        $.post('<?php echo SITE_PATH; ?>job/deletejob',{'rid':rid,'dt':deleteType},function(resp){
+            try{
+                var json_data = $.parseJSON(resp);
+                if(json_data.response.code=='0x0000'){
+                    bootbox.alert('1 Job Deleted Successfully',function(){
+                        window.location = window.location;
+                    });
+                    $('.job-record[rid="'+rid+'"]').fadeOut().remove();
+                }else{
+                    bootbox.alert(json_data.response.resp_msg);
+                }
+            }catch(err){
+                bootbox.alert('Exception (Delete): '+err.message );
+            }
+        })
+    }
+
 </script>

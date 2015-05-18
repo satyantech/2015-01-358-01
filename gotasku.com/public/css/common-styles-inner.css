@@ -347,6 +347,7 @@ input[type="checkbox"]:checked + label:before {
 
 .job-record-heading a.heading-text{
     /*display: inline-block;*/
+    font-family: 'Ralewaylight';
     font-size: 17px;
     font-weight: 700;
     color:#999;
@@ -374,5 +375,12 @@ input[type="checkbox"]:checked + label:before {
 
 .job-desc-info{
     margin-top:10px;
+}
+.navbar-nav>li>.dropdown-menu {
+    border-radius: 0px;
+}
+.job-record-heading{
+    font-family:verdana;
+    font-weight:normal;
 }
 /* Jobs Listing and managing Page Ends */
