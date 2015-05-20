@@ -17,11 +17,11 @@
             <div class="login-form" id="login-form">
                 <form method="post" id="frmLogin">
                     <div class="form-group">
-                        <input type="email" name="User Name" id="username" required="required" class="form-control login-control top" placeholder="Rekisteröity Sähköposti" value="aku@foundza.com">
-                        <input type="password" name="Password" id="password" required="required" class="form-control login-control bottom" placeholder="Salasana" value="test123">
+                        <input type="email" name="User Name" id="username" required="required" class="form-control login-control top" placeholder="Rekisteröity Sähköposti" value="">
+                        <input type="password" name="Password" id="password" required="required" class="form-control login-control bottom" placeholder="Salasana" value="">
                     </div>
                     <div class="divider">
-                        <button type="button" class="btn btn-lg btn-success btn-block" name="btnLogin" id="btnLogin">Esittää</button>
+                        <button type="submit" class="btn btn-lg btn-success btn-block" name="btnLogin" id="btnLogin">Esittää</button>
                     </div>
                 </form>
             </div>
@@ -79,7 +79,7 @@
             /*$('#btnLogin').click(function(){
                 msg('<span class="pulse-preloader message" style="margin-top:-10px"></span><span style="margin-left:50px">Odota, kun olet kirjautuneena sisään....</span>');
             });*/
-            $('#btnLogin').click(function(){
+            $('#login-form').submit(function(){
                  if(validateForm('frmLogin')){
                      $.post('<?php echo SITE_PATH; ?>login/authenticate',{'u':$('#username').val(),'p':$('#password').val()},function(resp){
                          try {

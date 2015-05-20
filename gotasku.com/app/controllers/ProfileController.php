@@ -53,6 +53,19 @@ class ProfileController extends \Phalcon\Mvc\Controller
         }
     }
     public function opportunitiesAction(){
+        //$this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
+        $params = array(
+            'a'     =>  'db-get',
+            'sa'    =>  'get-employee-matched-jobs',
+            'usr_id'=>  $this->session->user_data->usr_id
+        );
+        echo $out = APICall::execute($params);
+        $json_out = json_decode($out);
+        if(isset($json_out->response->records)) {
+            $this->view->setVar('records', $json_out->response->records);
+        }else{
+            $this->view->setVar('records', 'No Records...');
+        }
         $this->view->setVar('page','profile/employee/list-opportunities');
     }
     public function getEmpDocuments(){
@@ -124,6 +137,18 @@ class ProfileController extends \Phalcon\Mvc\Controller
                     'usr_id' => $this->session->user_data->usr_id
                 );
             }
+            echo APICall::execute($params);
+        }
+    }
+    public function applyForJobAction(){
+        $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
+        if($this->request->isAjax()){
+            $params = array(
+                'a'=>'db-update',
+                'sa'=>'job-application',
+                'usr_id'=>$this->session->user_data->usr_id,
+                'rid'=>$this->request->get('rid')
+            );
             echo APICall::execute($params);
         }
     }
