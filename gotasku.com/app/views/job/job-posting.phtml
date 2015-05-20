@@ -242,7 +242,20 @@
                             'ws':ws,'br':br,'jd':jd,
                             'mr':mr,'ld':ld
                         },function(resp){
-                                alert(resp);
+                                try{
+                                    var json_data = $.parseJSON(resp);
+                                    if(json_data.response.code == '0x0000'){
+                                        bootbox.alert('Your Job has been posted successfully!',function(res){
+                                            if(!res){
+                                                window.location = '<?php echo SITE_PATH; ?>job/manage';
+                                            }
+                                        });
+                                    }else{
+                                        bootbox.alert('Snap! Your Job has not been posted!'+'(' + json_data.response.resp_msg + ')');
+                                    }
+                                }catch(err){
+                                    bootbox.alert('There is some problem in creating of job. Please try after some time.');
+                                }
                         });
                     }
                 });

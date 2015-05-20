@@ -36,19 +36,19 @@ if(isset($_REQUEST['usr_id']) && $_REQUEST['usr_id']){
         $skills = explode(',',$mr);
         $data = '';
         foreach($skills as $s){
-            $data .= "($jid,'$s'),";
+            $data .= "($jid,'".trim($s)."'),";
         }
         $data = rtrim($data,',');
         $sql = "INSERT INTO job_skills(job_id,skill) VALUES $data";
         if($pdo->exec($sql)){
             $pdo->commit();
-            echo json_encode(array('response'=>array('out'=>'0x0000','resp_msg'=>'')));
+            echo json_encode(array('response'=>array('code'=>'0x0000','resp_msg'=>'')));
         }else{
             $pdo->rollBack();
-            echo json_encode(array('response'=>array('out'=>'0x00E2','resp_msg'=>'Some error occurred while storing the skills data ')));
+            echo json_encode(array('response'=>array('code'=>'0x00E2','resp_msg'=>'Some error occurred while storing the skills data ')));
         }
     }else{
         $pdo->rollBack();
-        echo json_encode(array('response'=>array('out'=>'0x00EX','resp_msg'=>'Some error occurred while storing the record ||| '.$sql.' ||| '.json_encode($pdo->errorInfo()))));
+        echo json_encode(array('response'=>array('code'=>'0x00EX','resp_msg'=>'Some error occurred while storing the record ||| '.$sql.' ||| '.json_encode($pdo->errorInfo()))));
     }
 }

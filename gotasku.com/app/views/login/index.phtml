@@ -21,7 +21,7 @@
                         <input type="password" name="Password" id="password" required="required" class="form-control login-control bottom" placeholder="Salasana" value="">
                     </div>
                     <div class="divider">
-                        <button type="submit" class="btn btn-lg btn-success btn-block" name="btnLogin" id="btnLogin">Esittää</button>
+                        <button type="button" class="btn btn-lg btn-success btn-block" name="btnLogin" id="btnLogin">Esittää</button>
                     </div>
                 </form>
             </div>
@@ -79,7 +79,7 @@
             /*$('#btnLogin').click(function(){
                 msg('<span class="pulse-preloader message" style="margin-top:-10px"></span><span style="margin-left:50px">Odota, kun olet kirjautuneena sisään....</span>');
             });*/
-            $('#login-form').submit(function(){
+            $('#btnLogin').click(function(){
                  if(validateForm('frmLogin')){
                      $.post('<?php echo SITE_PATH; ?>login/authenticate',{'u':$('#username').val(),'p':$('#password').val()},function(resp){
                          try {

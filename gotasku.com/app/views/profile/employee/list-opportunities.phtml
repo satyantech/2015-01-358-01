@@ -129,7 +129,6 @@
                 bootbox.confirm('You are about to apply for the job <strong>"'+$('.position[rid="'+rid+'"]').text() +' at ' + $('.organization[rid="'+rid+'"]').text() +'</strong>". Proceed?',function(res){
                     if(res){
                         $.post('<?php echo SITE_PATH; ?>profile/applyforjob/',{'rid':rid},function(resp){
-                            alert(resp);
                             try {
                                 var json_data = $.parseJSON(resp);
                                 if(json_data.response.code=='0x0000'){

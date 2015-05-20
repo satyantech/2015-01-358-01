@@ -9,9 +9,7 @@ if(isset($_REQUEST['usr_id']) && $_REQUEST['usr_id']) {
     try{
 
         $usr_id = $_REQUEST['usr_id'];
-        $sql = "SELECT
-        GROUP_CONCAT(js.skill) SKILLS,
-        j.id JOB_ID,
+        $sql = "SELECT j.id JOB_ID,
         job_type_id,
         jt.type_nm JOB_TYPE,
         emplyr_id,
@@ -33,17 +31,15 @@ if(isset($_REQUEST['usr_id']) && $_REQUEST['usr_id']) {
         othr_org_phone CONTACT,
         othr_org_website WEB_SITE,
         is_othr_org,
-        COALESCE(ap.ap_cnt,0) HAS_APPLIED
-
-        FROM `worker_skills` ws
-
-        INNER JOIN job_skills js ON js.skill = ws.skill
-        INNER JOIN jobs j ON j.id = js.job_id
-        INNER JOIN job_types jt ON jt.id = j.job_type_id
-        INNER JOIN business_types bt ON j.othr_org_bsnss = bt.id
-        LEFT JOIN (SELECT count(id) ap_cnt,wrkr_id,job_id FROM applications) ap ON ap.wrkr_id = ws.wrkr_id AND ap.job_id = j.id
-        WHERE ws.wrkr_id = $usr_id
-        GROUP BY js.job_id";
+        COUNT(ap.id) HAS_APPLIED
+FROM jobs j
+INNER JOIN job_skills js ON js.job_id = j.id
+INNER JOIN worker_skills ws ON ws.skill = js.skill
+INNER JOIN job_types jt ON jt.id = j.job_type_id
+INNER JOIN business_types bt ON j.othr_org_bsnss = bt.id
+LEFT JOIN applications ap on ap.job_id = j.id and ap.wrkr_id = ws.wrkr_id
+WHERE ws.wrkr_id = $usr_id
+group by j.id;";
 
         $stmt = $pdo->query($sql);
 
