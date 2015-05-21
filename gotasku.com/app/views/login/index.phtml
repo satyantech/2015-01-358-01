@@ -20,8 +20,9 @@
                         <input type="email" name="User Name" id="username" required="required" class="form-control login-control top" placeholder="Rekisteröity Sähköposti" value="">
                         <input type="password" name="Password" id="password" required="required" class="form-control login-control bottom" placeholder="Salasana" value="">
                     </div>
-                    <div class="divider">
-                        <button type="button" class="btn btn-lg btn-success btn-block" name="btnLogin" id="btnLogin">Esittää</button>
+                    <div class="divider" style="text-align: right">
+                        <button type="button" class="btn btn-lg btn-block btn-success" name="btnLogin" id="btnLogin">Esittää</button><br/>
+                        <a href="javascript:void(0);" id="btn-forgot-password">Unohtuiko salasana?</a>
                     </div>
                 </form>
             </div>
@@ -61,6 +62,18 @@
                     <button type="button" name="btnRegUser" id="btnRegUser" class="btn btn-lg btn-block btn-success">Rekisteröidy</button>
                     <br/>
                 </form>
+            </div>
+    </div>
+    <div class="forgot-password">
+
+            <div class="form-group">
+                <label class="form-label">Anna Rekisteröity Sähköposti</label> <label class="label action-message" style="float:right;"></label>
+                <input type="email" class="form-control login-control" placeholder="Rekisteröityneet Sähköposti" id="account-id">
+            </div>
+            <div style="text-align: right">
+
+                <button type="button" class="btn btn-success" id="btn-reset-password">Vaihda salasana</button>
+                <button type="button" class="btn btn-default" id="btn-cancel-reset-password">Peruuttaa</button>
             </div>
     </div>
     <script type="text/javascript" src="<?php echo JS_PATH;?>myvalidator.js"></script>
@@ -124,6 +137,49 @@
                         }
                     });
                 }
+            });
+
+            $('#btn-forgot-password').click(function(){
+                $('.login-div').fadeOut();
+                $('.forgot-password').fadeIn();
+            });
+            $('#btn-reset-password').click(function(){
+                var ele = $(this);
+                try {
+                    var a = $('#account-id').val();
+                    if (!IsEmail($.trim(a))) {
+                        $('label.action-message').addClass('label-warning').text("Virheellinen Sähköposti!").fadeOut(8000);
+                        return false;
+                    }
+                    ele.attr('disabled','disabled');
+                    $.post('<?php echo SITE_PATH; ?>accounts/isvalidaccountid/', {'a': a}, function (rsp) {
+                        //alert(rsp);return;
+                        var json_data = $.parseJSON(rsp);
+                        if(json_data.response.code=='0x0000') {
+                            $('label.action-message').removeClass('label-warning').addClass('label-success').text("voimassa Sähköposti").fadeOut(8000);
+                            $.post('<?php echo SITE_PATH; ?>accounts/resetpassword',{'a':a},function(resp){
+                                var json_data2 = $.parseJSON(resp);
+                                if(json_data2.response.code=='0x0000') {
+                                    ele.fadeOut();
+                                    bootbox.alert('<span class="pulse-preloader message" style="margin-top:-10px"></span><span style="margin-left:50px">Salasanasi on palautettu onnistuneesti . Tarkista olet mail lisätietoja.</span>',function(){
+                                        window.location = window.location;
+                                    });
+                                }else{
+                                    bootbox.alert('Salasanasi nollata. Yritä myöhemmin.');
+                                }
+                            });
+                        }else{
+                            $('label.action-message').addClass('label-warning').text("Virheellinen Sähköposti!").fadeOut(8000);
+                            return false;
+                        }
+                    });
+                }catch(err){
+                    bootbox.alert('Anteeksi. Pyyntöäsi ei voitu käsitellä . Yritä jonkin ajan kuluttua.');
+                }
+            });
+            $('#btn-cancel-reset-password').click(function(){
+                $('.forgot-password').fadeOut();
+                $('.login-div').fadeIn();
             });
         });
     </script>

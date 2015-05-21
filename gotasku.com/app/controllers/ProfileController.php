@@ -50,26 +50,32 @@ class ProfileController extends \Phalcon\Mvc\Controller
             $out = APICall::execute($params);
             $this->view->setVar('getVals',$out);
             $this->view->setVar('page','profile/employee/employee-preferences');
+        }else{
+            $this->response->redirect('profile/');
         }
     }
     public function opportunitiesAction(){
-        //$this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
-        $params = array(
-            'a'     =>  'db-get',
-            'sa'    =>  'get-employee-matched-jobs',
-            'usr_id'=>  $this->session->user_data->usr_id
-        );
-        echo $out = APICall::execute($params);
-        $json_out = json_decode($out);
-        if(isset($json_out->response->records)) {
-            $this->view->setVar('records', $json_out->response->records);
+        if($this->session->user_data->usr_type_id == EMPLOYEE) {
+            $params = array(
+                'a' => 'db-get',
+                'sa' => 'get-employee-matched-jobs',
+                'usr_id' => $this->session->user_data->usr_id
+            );
+            echo $out = APICall::execute($params);
+            $json_out = json_decode($out);
+            if (isset($json_out->response->records)) {
+                $this->view->setVar('records', $json_out->response->records);
+            } else {
+                $this->view->setVar('records', 'No Records...');
+            }
+            $this->view->setVar('page', 'profile/employee/list-opportunities');
         }else{
-            $this->view->setVar('records', 'No Records...');
+            $this->response->redirect('profile/');
         }
-        $this->view->setVar('page','profile/employee/list-opportunities');
     }
     public function getEmpDocuments(){
-        if($this->request->isAjax() && $this->request->isPost()){
+
+        if($this->request->isAjax() && $this->request->isPost() && $this->session->user_data->usr_type_id == EMPLOYEE){
             $params = array(
                 'a' =>'db-get',
                 'sa'=>'get-emp-docs',
@@ -80,7 +86,7 @@ class ProfileController extends \Phalcon\Mvc\Controller
     }
     public function updateEmpPersonalDetailsAction(){
         $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
-        if($this->request->isAjax() && $this->request->isPost()){
+        if($this->request->isAjax() && $this->request->isPost() && $this->session->user_data->usr_type_id == EMPLOYEE){
             $params = array(
                 'a'         =>  'db-update',
                 'sa'        =>  'update-emp-details',
@@ -93,7 +99,7 @@ class ProfileController extends \Phalcon\Mvc\Controller
     }
     public function updateEmpPreferenceAction(){
         $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
-        if($this->request->isAjax() && $this->request->isPost()){
+        if($this->request->isAjax() && $this->request->isPost() && $this->session->user_data->usr_type_id == EMPLOYEE){
             $params = array(
                 'a'         =>  'db-update',
                 'sa'        =>  'update-emp-pref',
@@ -106,7 +112,7 @@ class ProfileController extends \Phalcon\Mvc\Controller
     }
     public function updateEmployerAction(){
         $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
-        if($this->request->isAjax()){
+        if($this->request->isAjax() && $this->session->user_data->usr_type_id == EMPLOYER){
             $params = array(
                 'a'     =>  'db-update',
                 'sa'    =>  'update-employer',
@@ -119,7 +125,7 @@ class ProfileController extends \Phalcon\Mvc\Controller
     }
     public function updateEmployerBillingDetailsAction(){
         $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
-        if($this->request->isAjax()){
+        if($this->request->isAjax() && $this->session->user_data->usr_type_id == EMPLOYER){
             if($this->request->get('be')){
                 $params = array(
                     'a' => 'db-update',
@@ -142,7 +148,7 @@ class ProfileController extends \Phalcon\Mvc\Controller
     }
     public function applyForJobAction(){
         $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
-        if($this->request->isAjax()){
+        if($this->request->isAjax() && $this->session->user_data->usr_type_id == EMPLOYEE){
             $params = array(
                 'a'=>'db-update',
                 'sa'=>'job-application',
@@ -152,5 +158,7 @@ class ProfileController extends \Phalcon\Mvc\Controller
             echo APICall::execute($params);
         }
     }
+
+
 }
 
