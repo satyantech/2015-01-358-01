@@ -158,7 +158,13 @@ class ProfileController extends \Phalcon\Mvc\Controller
             echo APICall::execute($params);
         }
     }
-
+    public function settingsAction(){
+        if($this->session->user_data->usr_type_id == EMPLOYEE) {
+            $this->view->page = 'profile/employee/settings';
+        }else if($this->session->user_data->usr_type_id == EMPLOYER){
+            $this->view->page = 'profile/employee/settings';
+        }
+    }
 
 }
 

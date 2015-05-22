@@ -71,5 +71,31 @@ class AccountsController extends \Phalcon\Mvc\Controller
         }
         //echo json_encode(array('response'=>array('code'=>'0x0000')));
     }
+    public function changePasswordAction(){
+        $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
+        if($this->request->isAjax() && isset($this->session->user_data)){
+            $usr_id  = $this->session->user_data->usr_id;
+            $ep = $this->request->get('c'); //existing password
+            $np = $this->request->get('n'); //new password
+            $cp = $this->request->get('m'); //confirm password
+
+            if(strlen($ep)==0){echo json_encode(array('response'=>array('code'=>'0x00BD','resp_msg'=>'Kirjoita Nykyinen salasana')));exit;}
+            if(strlen($np)==0){echo json_encode(array('response'=>array('code'=>'0x00BD','resp_msg'=>'Kirjoita uusi salasana')));exit;}
+            if(strlen($cp)==0){echo json_encode(array('response'=>array('code'=>'0x00BD','resp_msg'=>'Kirjoita Vahvista salasana')));exit;}
+            if($np!=$cp){echo json_encode(array('response'=>array('code'=>'0x00BD','resp_msg'=>'Uusi salasana ja vahvista salasana eivät ole samat')));exit;}
+            if($ep==$np){echo json_encode(array('response'=>array('code'=>'0x00BD','resp_msg'=>'Uusi salasana ei voi olla sama kuin nykyinen salasana')));exit;}
+
+            $params = array(
+                'a'         =>  'db-update',
+                'sa'        =>  'change_user_password',
+                'usr_id'    =>  $usr_id,
+                'cp'        =>  $ep,
+                'np'        =>  $np,
+                'k'         =>  'passwordchange'
+            );
+
+            echo APICall::execute($params);
+        }
+    }
 }
 

@@ -1,0 +1,45 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Satyanarayan
+ * Date: 22-05-2015
+ * Time: 11:14
+ */
+?>
+<style type="text/css">
+    .form-control{
+        border:1px solid #CCC;
+    }
+</style>
+
+<div class="row" style="min-height:600px;">
+    <div class="col-lg-2">
+        <div class="list-group">
+            <a href="?ss=changepassword" class="list-group-item<?php echo (isset($_GET['ss']) && $_GET['ss']=='changepassword')?' active':''?>">Vaihda Salasana</a>
+            <!--a href="javascript:void(0);" class="list-group-item">Muut Asetukset</a>
+            <a href="javascript:void(0);" class="list-group-item">Muut Asetukset</a>
+            <a href="javascript:void(0);" class="list-group-item">Muut Asetukset</a>
+            <a href="javascript:void(0);" class="list-group-item">Muut Asetukset</a>
+            <a href="javascript:void(0);" class="list-group-item">Muut Asetukset</a-->
+        </div>
+        <hr/>
+    </div>
+    <div class="col-lg-10">
+        <?php if(isset($_GET['ss']) && trim($_GET['ss']) != ''){ $sub_page = $_GET['ss']; ?>
+            <?php
+            echo $this->partial("profile/employer/settings/$sub_page");
+            ?>
+        <?php } else { ?>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ipsum orci, semper vitae gravida non, cursus pellentesque metus. Vivamus feugiat metus nec turpis luctus dignissim. Duis nec mauris ex. Fusce vehicula ultricies risus, hendrerit porttitor nisi hendrerit eu. Nullam a purus sed elit commodo imperdiet. Morbi dictum ac est sit amet lobortis. Morbi id nisi eu arcu tristique tempor. Sed ultrices, nibh blandit condimentum convallis, ipsum orci ornare ante, in aliquam lorem risus at justo. Mauris suscipit eleifend lorem, non aliquet nisl viverra a. Nullam eget nulla ligula. Mauris molestie consequat vestibulum. Nam tempus est vel justo convallis tempus.
+            </p>
+            <p>
+                Fusce vel felis et eros ornare feugiat. Suspendisse eu sollicitudin urna. Etiam elit felis, ultricies ut erat et, ultrices pulvinar est. Vestibulum pulvinar nisl ac diam sodales, mollis maximus lacus malesuada. Morbi ac lacus orci. Donec fermentum, ligula et accumsan euismod, mi ante faucibus lorem, quis facilisis nibh leo eget enim. Aliquam pellentesque leo non nunc cursus pretium. Quisque suscipit augue id tristique efficitur. In hac habitasse platea dictumst. Donec suscipit, nibh egestas commodo rhoncus, urna tortor sodales arcu, id pulvinar orci odio vitae turpis. Proin erat est, condimentum nec lacinia sed, facilisis in neque. Morbi pretium sem ante.
+            </p>
+            <p>
+                In ornare est non odio ornare varius. Aliquam erat volutpat. Sed pharetra sem lacinia ligula porta, dapibus fermentum ante auctor. Etiam vel odio lobortis, varius sem nec, lacinia ipsum. Sed vel eros vestibulum, lobortis quam maximus, commodo elit. Nam facilisis ligula sed ipsum hendrerit tristique eu sit amet ligula. Quisque ut posuere risus. Aliquam ac sapien at ipsum dapibus viverra sit amet vel massa. Praesent eu sapien quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </p>
+
+        <?php } ?>
+    </div>
+</div>
