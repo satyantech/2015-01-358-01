@@ -147,11 +147,13 @@
                 var ele = $(this);
                 try {
                     var a = $('#account-id').val();
+                    ele.attr('disabled','disabled');
                     if (!IsEmail($.trim(a))) {
                         $('label.action-message').addClass('label-warning').text("Virheellinen Sähköposti!").fadeOut(8000);
+                        ele.removeAttr('disabled');
                         return false;
                     }
-                    ele.attr('disabled','disabled');
+
                     $.post('<?php echo SITE_PATH; ?>accounts/isvalidaccountid/', {'a': a}, function (rsp) {
                         //alert(rsp);return;
                         var json_data = $.parseJSON(rsp);
@@ -165,16 +167,21 @@
                                         window.location = window.location;
                                     });
                                 }else{
+
                                     bootbox.alert('Salasanasi nollata. Yritä myöhemmin.');
+                                    ele.removeAttr('disabled');
                                 }
                             });
                         }else{
                             $('label.action-message').addClass('label-warning').text("Virheellinen Sähköposti!").fadeOut(8000);
+                            ele.removeAttr('disabled');
                             return false;
                         }
                     });
                 }catch(err){
                     bootbox.alert('Anteeksi. Pyyntöäsi ei voitu käsitellä . Yritä jonkin ajan kuluttua.');
+                    ele.removeAttr('disabled');
+                    return false;
                 }
             });
             $('#btn-cancel-reset-password').click(function(){
