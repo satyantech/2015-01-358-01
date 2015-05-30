@@ -6,7 +6,9 @@
  * Time: 15:21
  */
 ?>
+<style type="text/css">
 
+</style>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -24,20 +26,36 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
+                    <a href="#" class="dropdown-toggle notification-brief" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-briefcase"></i></a>
+                    <div class="notification-container dropdown-menu malihu-scroll" role="menu">
+
+                    </div>
+                </li>
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-user"></i> <!--div class="nav-profile-img"><img src="<?php echo IMG_PATH?>defaultProfile.png"></div--><?php echo $this->session->user_data->fnm.' '.$this->session->user_data->lnm; ?> <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="<?php echo SITE_PATH; ?>profile"><i class="fa fa-user"></i> Oma profiili</a></li>
                         <li><a href="<?php echo SITE_PATH; ?>profile/preferences"><i class="fa fa-heart"></i> Omat asetukset</a></li>
                         <li><a href="<?php echo SITE_PATH; ?>profile/settings"><i class="fa fa-gear"></i> Asetukset</a></li>
+                        <li><a href="<?php echo SITE_PATH; ?>profile/opportunities"><i class="fa fa-paper-plane"></i> Avoimet työpaikat</a></li>
                         <li class="divider"></li>
                         <li><a href="<?php echo SITE_PATH; ?>"><i class="fa fa-comments"></i> TUKI</a></li>
                         <li><a href="<?php echo SITE_PATH; ?>logout"><i class="fa fa-sign-out"></i> KIRJAUDU ULOS</a></li>
                     </ul>
                 </li>
                 <!--li><a href="<?php echo SITE_PATH; ?>"><i class="fa fa-ellipsis-h"></i> Omat vuoroni</a></li-->
-                <li><a href="<?php echo SITE_PATH; ?>profile/opportunities"><i class="fa fa-paper-plane"></i> Avoimet työpaikat</a></li>
+
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+<script type="text/javascript" src="<?php echo JS_PATH; ?>satyan-notify.js"></script>
+<script type="text/javascript">
+    $(function(){
 
+        $('.notification-brief').jobNotify('<?php echo SITE_PATH; ?>profile/getnewjobs/','.notification-container','<?php echo SITE_PATH; ?>profile/getjobdetails/');
+        $('.notification-container').mCustomScrollbar({
+            'theme':'3d-dark'
+        });
+    });
+</script>

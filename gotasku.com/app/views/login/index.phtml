@@ -149,16 +149,15 @@
                     var a = $('#account-id').val();
                     ele.attr('disabled','disabled');
                     if (!IsEmail($.trim(a))) {
-                        $('label.action-message').addClass('label-warning').text("Virheellinen Sähköposti!").fadeOut(8000);
+                        $('label.action-message').addClass('label-warning').text("Virheellinen Sähköposti!");
                         ele.removeAttr('disabled');
                         return false;
                     }
-
                     $.post('<?php echo SITE_PATH; ?>accounts/isvalidaccountid/', {'a': a}, function (rsp) {
                         //alert(rsp);return;
                         var json_data = $.parseJSON(rsp);
                         if(json_data.response.code=='0x0000') {
-                            $('label.action-message').removeClass('label-warning').addClass('label-success').text("voimassa Sähköposti").fadeOut(8000);
+                            $('label.action-message').removeClass('label-warning').addClass('label-success').text("voimassa Sähköposti");
                             $.post('<?php echo SITE_PATH; ?>accounts/resetpassword',{'a':a},function(resp){
                                 var json_data2 = $.parseJSON(resp);
                                 if(json_data2.response.code=='0x0000') {
@@ -167,26 +166,31 @@
                                         window.location = window.location;
                                     });
                                 }else{
-
                                     bootbox.alert('Salasanasi nollata. Yritä myöhemmin.');
+                                    //$('label.action-message span').fadeOut(8000);
                                     ele.removeAttr('disabled');
                                 }
                             });
                         }else{
-                            $('label.action-message').addClass('label-warning').text("Virheellinen Sähköposti!").fadeOut(8000);
+                            $('label.action-message').addClass('label-warning').text("Virheellinen Sähköposti!");
                             ele.removeAttr('disabled');
+                            //$('label.action-message span').fadeOut(8000);
                             return false;
                         }
                     });
-                }catch(err){
+                    //$('label.action-message span').fadeOut(8000);
+                }
+                catch(err){
                     bootbox.alert('Anteeksi. Pyyntöäsi ei voitu käsitellä . Yritä jonkin ajan kuluttua.');
                     ele.removeAttr('disabled');
                     return false;
                 }
+
             });
             $('#btn-cancel-reset-password').click(function(){
                 $('.forgot-password').fadeOut();
                 $('.login-div').fadeIn();
             });
         });
+
     </script>

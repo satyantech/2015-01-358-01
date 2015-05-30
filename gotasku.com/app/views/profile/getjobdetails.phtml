@@ -1,0 +1,30 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Satyanarayan
+ * Date: 28-05-2015
+ * Time: 10:45
+ */
+?>
+<pre>
+    <?php print_r($job_record); ?>
+</pre>
+<style type="text/css">
+    .bootbox-body{
+        max-height: 300px;
+    }
+    .job-desc-title{
+        font-weight: bold;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-3 right">Job Title</div>
+    <div class="col-lg-9"><span class="job-desc-title"></span></div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $('.bootbox-body').mCustomScrollbar({
+            'theme':'3d-dark'
+        });
+    });
+</script>

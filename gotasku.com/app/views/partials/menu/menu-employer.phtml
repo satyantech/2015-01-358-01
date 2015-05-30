@@ -24,6 +24,12 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
+                    <a href="#" class="dropdown-toggle notification-bell" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-bell-o"></i></a>
+                    <div class="notification-container dropdown-menu malihu-scroll" role="menu">
+
+                    </div>
+                </li>
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><!--div class="nav-profile-img"><img src="<?php echo IMG_PATH?>defaultProfile.png"></div--><?php echo $this->session->user_data->cntct_prsn_fnm.' '.$this->session->user_data->cntct_prsn_lnm; ?> <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="<?php echo SITE_PATH ?>profile"><i class="fa fa-user"></i> My Profile</a></li>
@@ -39,4 +45,10 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-
+<script type="text/javascript" src="<?php echo JS_PATH; ?>satyan-notify.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('.notification-bell').applicationNotify('<?php echo SITE_PATH; ?>profile/getapplications/','.notification-container');
+        $('.notification-container').mCustomScrollbar({'theme':'3d-dark'});
+    });
+</script>

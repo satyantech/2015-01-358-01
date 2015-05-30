@@ -15,11 +15,11 @@ define('PHP_MAILER_SMTP_SECURE','ssl');
 
 define('PHP_MAILER_SMTP_HOST','smtp.gmail.com');
 define('PHP_MAILER_PORT',465);
-define('PHP_MAILER_USER','satyan.iyengar@gmail.com');
-define('PHP_MAILER_PASSWORD','Sat#1302');
+define('PHP_MAILER_USER','info.gotasku@gmail.com');
+define('PHP_MAILER_PASSWORD','Gotasku#123');
 
 
-define('PHP_MAILER_FROM','satyan.iyengar@gmail.com');
+define('PHP_MAILER_FROM','info.gotasku@gmail.com');
 define('PHP_MAILER_SENDER','gotasku');
 //define('','');
 //define('','');

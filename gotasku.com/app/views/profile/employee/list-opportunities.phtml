@@ -28,7 +28,8 @@
         position: relative;
         height:100%;
         width:100%;
-        background: url('<?php echo IMG_PATH; ?>fav-icon.png') #DDD;
+        /*background: url('<?php echo IMG_PATH; ?>job-list-bg.jpg') #DDD;*/
+        background:#888;
         background-repeat: space;
     }
     .opening .top .price-tag{
@@ -122,30 +123,32 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        $(function(){
-            $('.click').click(function(){
-                var rid = $(this).attr('rid');
-                bootbox.confirm('You are about to apply for the job <strong>"'+$('.position[rid="'+rid+'"]').text() +' at ' + $('.organization[rid="'+rid+'"]').text() +'</strong>". Proceed?',function(res){
-                    if(res){
-                        $.post('<?php echo SITE_PATH; ?>profile/applyforjob/',{'rid':rid},function(resp){
-                            try {
-                                var json_data = $.parseJSON(resp);
-                                if(json_data.response.code=='0x0000'){
-                                    window.location = window.location;
-                                }else{
-                                    bootbox.alert('Error while submitting Application for the job.');
-                                }
 
-                            }catch(err){bootbox.alert('Error while submitting Application for the job.');}
-                        });
-                    }
+    <?php } ?>
+        <script type="text/javascript">
+            $(function(){
+                $('.click').click(function(){
+                    var rid = $(this).attr('rid');
+                    bootbox.confirm('You are about to apply for the job <strong>"'+$('.position[rid="'+rid+'"]').text() +' at ' + $('.organization[rid="'+rid+'"]').text() +'</strong>". Proceed?',function(res){
+                     if(res){
+                     $.post('<?php echo SITE_PATH; ?>profile/applyforjob/',{'rid':rid},function(resp){
+                     try {
+                     var json_data = $.parseJSON(resp);
+                     if(json_data.response.code=='0x0000'){
+                     window.location = window.location;
+                     }else{
+                     bootbox.alert('Error while submitting Application for the job.');
+                     }
+
+                     }catch(err){bootbox.alert('Error while submitting Application for the job.');}
+                     });
+                     }
+                     });
                 });
-            });
-        })
+            })
 
-    </script>
-    <?php }}else{ ?>
+        </script>
+    <?php }else{ ?>
     No Records....
     <?php } ?>
     <!-- Job Container End -->

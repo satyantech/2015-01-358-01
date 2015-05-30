@@ -35,3 +35,8 @@ define('EMPLOYER',3);
 define('PROFILE_PIC_PATH','/img/profile/');
 define('PROFILE_DOCS','/files/profile_docs/');
 define('EMPLOYER_LOGO','public/img/logos/');
+
+
+//Notifications Types
+define('MATCHING_JOBS','1');
+define('JOB_APPLICATIONS','2');

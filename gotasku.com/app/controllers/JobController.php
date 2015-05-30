@@ -77,20 +77,6 @@ class JobController extends \Phalcon\Mvc\Controller
             echo APICall::execute($params);
         }
     }
-    private function getPostedJobs()
-    {
-        try {
-            $params = array(
-                'a' => 'db-get',
-                'sa' => 'get-posted-jobs',
-                'usr_id' => $this->session->user_data->usr_id
-            );
-            return APICall::execute($params);
-        } catch (Exception $e) {
-            return json_encode(array('response' => array('code' => '0x00EX', 'resp_msg' => 'Error while retrieving records')));
-        }
-    }
-
     public function getJobDataAction(){
         $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
         if($this->request->isAjax()){
@@ -114,6 +100,38 @@ class JobController extends \Phalcon\Mvc\Controller
                 'usr_id'=>$this->session->user_data->usr_id
             );
             echo APICall::execute($params);
+        }
+    }
+
+    public function listApplicationsAction(){
+        $this->view->page = "job/list-jobs";
+        $job_id = $this->request->get('j')?$this->request->get('j'):'0';
+        $params = array(
+            'a'=>'db-get',
+            'sa'=>'get-job-applications',
+            'job_id'=>$job_id,
+            'usr_id' => $this->session->user_data->usr_id
+        );
+        $out = APICall::execute($params);
+        $json_data = json_decode($out);
+        if($json_data->response->code=='0x0000'){
+            $this->view->records = $json_data->response->records;
+        }else{
+            $this->view->error_msg = "No Records / Invalid Job";
+        }
+    }
+    /************* Custom functions ***************/
+    private function getPostedJobs()
+    {
+        try {
+            $params = array(
+                'a' => 'db-get',
+                'sa' => 'get-posted-jobs',
+                'usr_id' => $this->session->user_data->usr_id
+            );
+            return APICall::execute($params);
+        } catch (Exception $e) {
+            return json_encode(array('response' => array('code' => '0x00EX', 'resp_msg' => 'Error while retrieving records')));
         }
     }
 }

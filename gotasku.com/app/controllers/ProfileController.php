@@ -166,5 +166,47 @@ class ProfileController extends \Phalcon\Mvc\Controller
         }
     }
 
+
+
+
+    //************** Notification Functions Start ****************/
+    public function getNewJobsAction(){
+        $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
+        if($this->request->isAjax()){
+            $params = array(
+                'a'=>'db-get',
+                'sa'=>'notifications-job',
+                'usr_id'=>$this->session->user_data->usr_id
+            );
+            echo APICall::execute($params);
+        }
+    }
+    public function getJobDetailsAction(){
+        $job_record = null;
+        $job_id = $this->request->get('j');
+        $params = array(
+            'a'=>'db-get',
+            'sa'=>'get-job-details',
+            'usr_id'=>$this->session->user_data->usr_id,
+            'job_id'=>$job_id
+        );
+        $out  = APICall::execute($params);
+        $json_out = json_decode($out);
+        if($json_out->response->code=='0x0000'){
+            $job_record = $json_out->response->record;
+        }
+        $this->view->job_record = $job_record;
+        $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_ACTION_VIEW);
+    }
+    public function getApplicationsAction(){
+        $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
+        $params = array(
+            'a'=>'db-get',
+            'sa'=>'notification-jobapplications',
+            'usr_id'=>$this->session->user_data->usr_id
+        );
+        echo APICall::execute($params);
+    }
+    //************** Notification Functions End ****************/
 }
 
