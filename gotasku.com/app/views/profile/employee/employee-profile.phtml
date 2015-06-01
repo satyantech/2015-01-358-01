@@ -6,25 +6,13 @@
  * Time: 18:11
  */
 ?>
-<style>
-<!--
-.btn-file {
-    overflow: hidden;
-    position: relative;
-    
-}
-.btn-file input[type="file"]{
-display: block;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    cursor:pointer;
-}
-
-
--->
+<style type="text/css">
+	.hidden-file-input{
+		visibility:hidden;
+		position: absolute;
+	}
 </style>
-<?php  echo ini_get('max_execution_time');?>
+
 <form name="employee_profile" id="employee-profile" method="post">
     <div class="row border-bottom">
         <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Profiilikuva</h1></div>
@@ -201,7 +189,46 @@ display: block;
             </script>
         </div>
     </div>
-    <div class="row border-bottom">
+     <div class="row border-bottom">
+        <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Todistukset</h1></div>
+        <div class="col col-lg-6 col-md-6 col-sm-6">
+            <br/>
+            <div class="row formfield-group border">
+                <div class="col-lg-12">DL<br/>
+                	<input type = "file" id="input-file-dl" class="hidden-file-input"/>
+                	<div class="buttons">
+                	<button type="button" for="input-field-dl" class="upload-file">Upload</button>
+                	</div>
+                </div>
+                <div class="col-lg-12">HYGIN<br/>
+                	<input type = "file" id="input-file-hyginpass" class="hidden-file-input"/>
+                	<div class="buttons">
+                	<button type="button" for="input-file-hyginpass" class="upload-file">Upload</button>
+                	</div>
+                </div>
+                <div class="col-lg-12">TAX<br/>
+                	<input type = "file" id="input-file-tax" class="hidden-file-input"/>
+                	<div class="buttons">
+                	<button type="button" for="input-field-tax" class="upload-file">Upload</button>
+                	</div>
+                </div>
+                <script type="text/javascript">
+					$(function(){
+						$('.upload-file').click(function(){
+							var input_element = $('#'+$(this).attr('for'));
+							
+							$(input_element).trigger('click');
+							/*input_element.change(function(){
+								alert(input_element.attr('id')+':'+input_element.val());	
+							});*/
+						});
+					});
+                </script>
+            </div>
+        </div>
+    </div>
+    <br/>
+   <!--  <div class="row border-bottom">
         <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Todistukset</h1></div>
         <div class="col col-lg-6 col-md-6 col-sm-6">
             <br/>
@@ -223,21 +250,16 @@ display: block;
                 </div>
 
                 <div class="col col-lg-8 col-md-8 col-sm-8 border">
-                
                     <div class="formgroup-top-labels"><label class="form-label">ANNISKELULUPA</label><span class="validation"></span></div>
-                    <span class="btn-file">
-                   	<!-- <button type="button" class="btn btn-xs btn-primary">Lataa kuva anniskeluluvastasi</button> -->	
-                    	<input type="file" name="" id="annikuva" class="btn btn-xs btn-primary" data-filename-placement="inside" style="visibility: visible;">
-  					</span>
-  					<button type="button" id="anni" class="btn btn-xs btn-primary">Lataa kuva anniskeluluvastasi</button>
+                    <button type="button" class="btn btn-xs btn-primary">Lataa kuva anniskeluluvastasi</button><input type="file" name="" id="" style="visibility: hidden">
                 </div>
                 <div class="col col-lg-4 col-md-4 col-sm-4 border" style="padding:21px 3px 20px 3px;">
-                    <button type="button"  class="btn btn-default btn-block" style="border:none;">LATAA</button>
+                    <button type="button" class="btn btn-default btn-block" style="border:none;">LATAA</button>
                 </div>
             </div>
         </div>
     </div>
-    <br/>
+    <br/> -->
     <div class="row">
         <div class="col col-lg-12 col-md-12 col-sm-12 center">
             <button type="button" class="btn btn-success btn-lg tasku-form-btn" name="btnSave" id="btnSave">Tallenna muutokset</button>
@@ -245,15 +267,31 @@ display: block;
         </div>
     </div>
 </form>
+
+<!--Gayathri-30.5.2015 --For Documents Upload -->
+<div id="dialog" title="File Upload" style="display:none;">
+<div id="container">
+<form id="uploadimage" action="" method="post" enctype="multipart/form-data">
+<!-- 
+<div id="image_preview"><img id="previewing" src="<?php echo SITE_PATH.PROFILE_DOCS1."noimage.png"; ?>" /></div>
+ -->
+<div id="selectImage">
+<label>Select File:</label><br/><br>
+<input type="file" name="file" id="file" required />
+<div id="mytextbox"><input type="hidden" name="dtid" id="dtid" value=""></div> <br>
+<input type="submit" value="Upload" class="btn btn-success1 btn-lg tasku-form-btn1" />
+</div>
+</div>
+</form>
+</div>
+
+
+<!-- Ends here -->
 <script type="text/javascript" src="<?php echo JS_PATH; ?>file-uploader.js"></script>
 <script type="text/javascript" src="<?php echo JS_PATH; ?>myvalidator.js"></script>
 <script type="text/javascript">
     $(function(){
-        
-    	$('#annikuva').bootstrapFileInput();
-    	//$('.file-inputs').bootstrapFileInput();
 
-    	
         $('.required').text('VAADITAAN');
         $('.profile-pic').click(function(){
             $('#profilepicFile').trigger('click');
@@ -340,6 +378,7 @@ display: block;
         });
         getSkills();
         getEmpExperiences();
+        getEmpDocuments();
     });
     //EDUCATION RELATED
     function getEducationdetails(){
@@ -396,6 +435,40 @@ display: block;
             $('table.table-experiences tbody').html(resp);
         });
     }
+
+    function getEmpDocuments()
+    {
+        var doctypeid,result1;
+    	  $.post('<?php echo SITE_PATH; ?>profile/getEmpDocuments',{'usr_id':<?php echo $this->session->user_data->usr_id; ?>},
+    	   function(resp){             
+               var res=resp.split('@@@'); 
+              for(i=0; i<res.length; i++)
+              {
+                 
+				 result2=res[i].toString().split("::");
+				//alert(result2[0]); alert(result2[1]); return false;
+				
+				 doctypeid=result2[0];
+				 docpath=result2[1];
+				
+				if(doctypeid==1)
+				{
+				$("#downloaddrln").attr('target','_blank');					
+				$("#downloaddrln").attr('href',docpath);
+				}
+				else if(doctypeid==2)
+				{
+					$("#downloadhygpassport").attr('target','_blank');
+					$("#downloadhygpassport").attr('href',docpath);
+				}
+				else
+				{
+					$("#downloadthirddoc").attr('target','_blank');
+					$("#downloadthirddoc").attr('href',docpath);
+				}
+              }
+          });
+    }
     function empSaveExp(desig,org,from,to){
         $.post('<?php echo SITE_PATH; ?>experience/saveempexperience', {'desig': desig,'org':org,'from':from,'to':to}, function (resp) {
             var json_resp = $.parseJSON(resp);
@@ -425,25 +498,117 @@ display: block;
 
     }
 
-    $('#anni').on('click', function(){    
-        var data = new FormData();
-        data.append('input_file_name', $('#annikuva').prop('files')[0]);
-        // append other variables to data if you want: data.append('field_name_x', field_value_x);
-
-        $.ajax({
-            type: 'POST',               
-            processData: false, // important
-            contentType: false, // important
-            data: data,
-            url: "<?php echo SITE_PATH; ?>profile/uploadempdocuments/", 
-            dataType : 'json',  
-            // in PHP you can call and process file in the same way as if it was submitted from a form:
-            // $_FILES['input_file_name']
-            success: function(jsonData){
-                
-            }
-             
-        }); 
+    //dialog box for file upload
+    $(document).ready(function () {
+        
+    	  /*$('#driving_license').click(function () {
+      		$("#dialog").dialog();
+      	
+      		$("#pop1").addClass('parentDisable1');
+      	
+      		$("#dtid").val('1');
+      		//$("#mytextbox").append('<input type="text" id="dtid" name="dtid" value="1" style="position:absolute;top:13px;left:135px;">');
+      		return false;
+              });
+    	  $('#hygiene_passport').click(function () {
+        		$("#dialog").dialog();
+        	
+          		$("#dtid").val('2');
+        		
+        		//$("#container").append('<input type="text" id="dtid" name="dtid" value="2" style="position:absolute;top:13px;left:135px;">');
+        		return false;
+                });
+    	  $('#third_document').click(function () {
+        		$("#dialog").dialog();
+        	
+          		$("#dtid").val('3');
+        		
+        		//$("#container").append('<input type="text" id="dtid" name="dtid" value="3" style="position:absolute;top:13px;left:135px;">');
+        		return false;
+                });*/
     });
 
+    $(function() {
+    	$("#file").change(function() {
+    	$("#message").empty(); // To remove the previous error message
+    	var file = this.files[0];
+    	/*var imagefile = file.type;
+    	var match= ["image/jpeg","image/png","image/jpg"];
+    	if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2])))
+    	{
+    	//$('#previewing').attr('src','noimage.png');
+    	$("#message").html("<p id='error'>Please Select A valid Image File</p>"+"<h4>Note</h4>"+"<span id='error_message'>Only jpeg, jpg and png Images type allowed</span>");
+    	return false;
+    	}
+    	else
+    	{
+    	var reader = new FileReader();
+    	reader.onload = imageIsLoaded;
+    	reader.readAsDataURL(this.files[0]);
+    	}*/
+    	});
+    	$("#uploadimage").on('submit',(function(e) { 
+    			e.preventDefault();
+    			$("#message").empty();
+    		
+    			  var formData = new FormData($(this)[0]); //   			var imgdata=new FormData(this);
+    			var d1=$("#dtid").val();
+    			$.ajax({
+    			url: "<?php echo SITE_PATH; ?>profile/uploadempdocuments/", 
+    			type: "POST",            
+    			data: formData, 
+    			contentType: false,
+    			cache: false,       
+    			processData:false,  
+
+    			success: function(resp)
+    			{
+    				 var json_data = $.parseJSON(resp); //if datatype is not mentioned then u need to parse otherwise no need to parse
+    	                if(json_data.response.out=='Success'){
+    	                  //alert('Upload Done!!'+json_data.response.id);
+    	                      			
+    	                  
+    	                  alert('Successfully Uploaded!..');
+    	                	/* bootbox.alert({
+                                 title: 'Gotasku Alert!',
+                                 message: '<span class="pulse-preloader message" style="margin-top:-10px"></span><span style="margin-left:50px">Successfully uploaded!..</span><br/>'
+                             });
+    	                	   setTimeout(function() {
+                                   //window.location = window.location;
+                               },1000);*/
+    	                }else{
+    	                	 alert('Error!..While saving record');
+    	                }
+    	                $("#dialog").dialog("close");
+    	                $("#previewing").hide();
+    	                $("#file").html('');
+    			if(d1==1){
+    			$("#downloaddrln").attr('href','<?php echo SITE_PATH.PROFILE_DOCS1 ?>'+json_data.response.file);
+    			$("#downloaddrln").attr('target','_blank');
+    			}
+    			else if(d1==2)
+    			{
+    				$("#downloadhygpassport").attr('href','<?php echo SITE_PATH.PROFILE_DOCS1 ?>'+json_data.response.file);
+        			$("#downloadhygpassport").attr('target','_blank');
+    			}
+    			else
+    			{
+    				$("#downloadthirddoc").attr('href','<?php echo SITE_PATH.PROFILE_DOCS1 ?>'+json_data.response.file);
+        			$("#downloadthirddoc").attr('target','_blank');
+    			}
+    			
+
+    			} //success
+    			});
+    			}));
+    });
+
+    $(document).ready(function(){
+    	  $("#contact").click(function(){
+    	    $("#contents").load('../modal.phtml');
+    	  });
+    	});
+
 </script>
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
