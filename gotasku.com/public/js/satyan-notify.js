@@ -2,7 +2,7 @@
  * Created by Satyanarayan on 25-05-2015.
  */
 
-$.fn.jobNotify = function(url,container,link){
+$.fn.jobNotify = function(url,container,link,apply_job_url){
     var ele = $(this);
     $.post(url,{},function(resp){
         try{
@@ -34,7 +34,7 @@ $.fn.jobNotify = function(url,container,link){
                                    label:'<i class="fa fa-check"></i> Apply',
                                    className:'btn-info btn-apply',
                                    callback:function(){
-                                       $.post('http://localhost/gotasku/gotasku.com/profile/applyforjob/',{'rid':job_id},function(res){
+                                       $.post(apply_job_url,{'rid':job_id},function(res){
                                            try {
                                                var json_data = $.parseJSON(res);
                                                if(json_data.response.code=='0x0000'){
