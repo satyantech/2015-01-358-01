@@ -36,14 +36,14 @@
             <a class="wage label editable label-success" rid="<?php echo $record->JOB_ID;?>" field="wage"  title="What is the hourly wage the employee gets / employer gives" data-toggle="tooltip" min-wage="<?php echo $record->EMP_GET; ?>" max-wage="<?php echo $record->EMPR_GIVE; ?>">[<?php echo $record->EMP_GET.'/'.$record->EMPR_GIVE; ?>]/h</a>
         </div>
         <div class="col col-lg-4 col-md-4 col-sm-4 job-record-options">
-            <a href="javascript:void(0);" class="label label-md label-success application-count" title="# of Applications Received" data-toggle="tooltip" id="" rid="<?php echo $record->JOB_ID;?>"><?php echo $record->APPLICATIONS_RECEIVED; ?></a> |
+            <a href="<?php echo SITE_PATH; ?>job/listapplications/?j=<?php echo $record->JOB_ID;?>" class="badge badge-info application-count" title="# of Applications Received" data-toggle="tooltip" id="" rid="<?php echo $record->JOB_ID;?>"><?php echo $record->APPLICATIONS_RECEIVED; ?></a> |
             <?php if($record->IS_ACTIVE){ ?>
                 <a href="javascript:void(0);" class="label label-warning edit enable" title="Edit" data-toggle="tooltip" id="" rid="<?php echo $record->JOB_ID;?>"><i class="fa fa-pencil"></i></a>
                 <a href="javascript:void(0);" class="label label-danger delete" title="Delete" data-toggle="tooltip" id="" rid="<?php echo $record->JOB_ID;?>"><i class="fa fa-times"></i></a> |
             <?php } ?>
             <!--a href="javascript:void(0);" class="label label-info popup" title="Full detais in a popup screen" data-toggle="tooltip" id="" rid="<?php echo $record->JOB_ID;?>"><i class="fa fa-external-link"></i></a-->
             <a href="javascript:void(0);" class="label label-info info" title="Show Description" data-toggle="tooltip" id="" rid="<?php echo $record->JOB_ID;?>"><i class="fa fa-info-circle"></i></a>
-            <?php if($record->IS_ACTIVE){ ?>
+            <?php if($record->IS_ACTIVE==1){ ?>
                 <a href="javascript:void(0);" class="label label-danger status-deactivate" title="Stop intake of applications" data-toggle="tooltip" rid="<?php echo $record->JOB_ID;?>"><i class="fa fa-ban"></i></a>
             <?php }  ?>
         </div>
@@ -59,6 +59,7 @@
     <span class="heading-text">No Records....</span>
 <?php } ?>
 </div>
+
 <style type="text/css">
     .edit-form-label{
         font-weight:100;
@@ -114,7 +115,7 @@
 
     });
     function editRecord(rid){
-        $('.editable').each(function(){
+        $('.editable[rid='+rid+']').each(function(){
             if(!$('.job-desc[rid="'+rid+'"]').is(':visible')) {
                 $('.info[rid="' + rid + '"]').trigger('click');
             }
@@ -182,8 +183,9 @@
     function resetForm(rid){
         $.post('<?php echo SITE_PATH; ?>job/getjobdata/',{'rid':rid},function(resp){
             try {
-                //alert(resp); return;
+
                 var json_data = $.parseJSON(resp);
+                //bootbox.alert(json_data.response.sql);
                 if(json_data.response.code=='0x0000'){
                     $('.editable.last-date[rid="'+rid+'"]').html(json_data.response.record.APPLY_LAST_DATE);
                     $('.editable.start-date[rid="'+rid+'"]').html(json_data.response.record.START_DATE);

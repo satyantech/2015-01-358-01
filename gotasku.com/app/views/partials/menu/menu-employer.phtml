@@ -48,7 +48,7 @@
 <script type="text/javascript" src="<?php echo JS_PATH; ?>satyan-notify.js"></script>
 <script type="text/javascript">
     $(function(){
-        $('.notification-bell').applicationNotify('<?php echo SITE_PATH; ?>profile/getapplications/','.notification-container');
+        $('.notification-bell').applicationNotify('<?php echo SITE_PATH; ?>profile/getapplications/','.notification-container','<?php echo SITE_PATH; ?>job/listapplications/');
         $('.notification-container').mCustomScrollbar({'theme':'3d-dark'});
     });
 </script>

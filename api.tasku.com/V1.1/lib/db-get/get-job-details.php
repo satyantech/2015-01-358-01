@@ -9,7 +9,7 @@
 if(isset($_REQUEST['usr_id']) && is_numeric($_REQUEST['usr_id']) && $_REQUEST['usr_id']){
     $job_id = $_REQUEST['job_id'];
 
-    $sql = "SELECT * FROM jobs WHERE id = $job_id";
+    $sql = "SELECT j.*,GROUP_CONCAT(js.skill) SKILLS FROM jobs j LEFT JOIN job_skills js ON js.job_id = j.id WHERE j.id = $job_id";
     $stmt = $pdo->query($sql);
     if($stmt->rowCount()==1){
         $job_record = $stmt->fetch(PDO::FETCH_ASSOC);

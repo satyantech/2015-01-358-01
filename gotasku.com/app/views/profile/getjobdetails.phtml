@@ -4,11 +4,11 @@
  * User: Satyanarayan
  * Date: 28-05-2015
  * Time: 10:45
- */
-?>
+
 <pre>
-    <?php print_r($job_record); ?>
-</pre>
+<?php //print_r($job_record); ?>
+</pre> */
+?>
 <style type="text/css">
     .bootbox-body{
         max-height: 300px;
@@ -16,10 +16,58 @@
     .job-desc-title{
         font-weight: bold;
     }
+    .notif-right {
+        float: left;
+        margin-left: 0;
+        margin-top: 0;
+        max-width: 365px;
+        padding-right: 0;
+        text-align: justify;
+    }
+
+    .notif-left {
+        float: left;
+        padding-right: 5px;
+        text-align: right;
+        width: 150px;
+        font-weight:bold;
+    }
+
+    .notif-desc {
+        display: inline-block;
+        width: 100%;
+    }
+    .section-title{
+        color:#CCC;
+        margin-top:10px;
+    }
 </style>
+
 <div class="row">
-    <div class="col-lg-3 right">Job Title</div>
+    <!--    <div class="col-lg-3 right">Job Title</div> -->
     <div class="col-lg-9"><span class="job-desc-title"></span></div>
+    <?php if(isset($job_record)){ ?>
+        <div class="row">
+            <div class="col-lg-12"><label class="fomr-label section-title">Job Title:</label><br/>
+                <label style="font-size:18px;"><?php echo ucfirst($job_record->job_ttl); ?></label>
+            </div>
+            <div class="col-lg-6"><label class="fomr-label section-title">Organization:</label><br/><?php echo $job_record->othr_org_nm; ?></div>
+            <div class="col-lg-6"><label class="fomr-label section-title">Postal Code:</label><br/><?php echo $job_record->othr_org_pstl_cd; ?></div>
+            <div class="col-lg-12"><label class="fomr-label section-title">Address:</label><br/><?php echo $job_record->othr_org_addr; ?></div>
+            <div class="col-lg-6"><label class="fomr-label section-title">Website:</label><br/><?php echo $job_record->othr_org_website; ?></div>
+            <div class="col-lg-6"><label class="fomr-label section-title">Contact:</label><br/><?php echo $job_record->othr_org_phone; ?></div>
+            <div class="col-lg-3"><label class="fomr-label  section-title">Posted On:</label><br/><?php echo date('Y-m-d',strtotime($job_record->posted_on)); ?></div>
+            <div class="col-lg-3"><label class="fomr-label section-title">Start Date:</label><br/><?php echo $job_record->strt_dt; ?></div>
+            <div class="col-lg-3"><label class="fomr-label section-title">End Date:</label><br/><?php echo $job_record->end_dt; ?></div>
+            <div class="col-lg-3"><label class="fomr-label section-title">Last Date:</label><br/><?php echo $job_record->last_dt_appl; ?></div>
+            <div class="col-lg-12"><label class="fomr-label section-title">Skills:</label><br/><?php echo $job_record->SKILLS; ?></div>
+            <div class="col-lg-12"><label class="fomr-label section-title">Description:</label><br/><?php echo $job_record->job_desc_long; ?></div>
+
+
+        </div>
+    <?php }else{ ?>
+        <div class="alert alert-danger"><?php echo $error_msg; ?></div>
+    <?php } ?>
 </div>
 <script type="text/javascript">
     $(function(){

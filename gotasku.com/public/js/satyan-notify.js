@@ -55,7 +55,7 @@ $.fn.jobNotify = function(url,container,link){
                                'cancel':{
                                    label:'<i class="fa fa-times"></i> Cancel',
                                    className:'btn-default btn-cancel',
-                                   callback:function(){return false;}
+                                   callback:function(){}
                                },
                                'refresh':{
                                    label:'<i class="fa fa-refresh"></i> Refresh',
@@ -81,7 +81,7 @@ $.fn.jobNotify = function(url,container,link){
     });
 };
 
-$.fn.applicationNotify = function(url,container){
+$.fn.applicationNotify = function(url,container,target_url){
     var ele = $(this);
     $.post(url,{},function(resp){
         try{
@@ -90,7 +90,7 @@ $.fn.applicationNotify = function(url,container){
                 if(json_data.response.records.length > 0) {
                     var list = $('<div><ul class="list-group"></ul></div>');
                     $.each(json_data.response.records, function () {
-                        var row = $('<li class="list-group-item"><span class="badge">'+this.CNT+'</span><a href="job/listapplications/?j='+this.JOB_ID+'">'+this.JOB_TITLE+'</a></li>');
+                        var row = $('<li class="list-group-item"><span class="badge">'+this.CNT+'</span><a href="'+target_url+'?j='+this.JOB_ID+'">'+this.JOB_TITLE+'</a></li>');
                         list.find('ul.list-group').append(row);
                     });
                     $(container).html(list.html());

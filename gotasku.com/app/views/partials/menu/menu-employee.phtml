@@ -52,8 +52,10 @@
 <script type="text/javascript" src="<?php echo JS_PATH; ?>satyan-notify.js"></script>
 <script type="text/javascript">
     $(function(){
-
         $('.notification-brief').jobNotify('<?php echo SITE_PATH; ?>profile/getnewjobs/','.notification-container','<?php echo SITE_PATH; ?>profile/getjobdetails/');
+        setInterval(function(){
+                $('.notification-brief').jobNotify('<?php echo SITE_PATH; ?>profile/getnewjobs/','.notification-container','<?php echo SITE_PATH; ?>profile/getjobdetails/');
+        },2000);
         $('.notification-container').mCustomScrollbar({
             'theme':'3d-dark'
         });
