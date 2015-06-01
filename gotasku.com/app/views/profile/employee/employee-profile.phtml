@@ -6,8 +6,25 @@
  * Time: 18:11
  */
 ?>
+<style>
+<!--
+.btn-file {
+    overflow: hidden;
+    position: relative;
+    
+}
+.btn-file input[type="file"]{
+display: block;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    cursor:pointer;
+}
 
 
+-->
+</style>
+<?php  echo ini_get('max_execution_time');?>
 <form name="employee_profile" id="employee-profile" method="post">
     <div class="row border-bottom">
         <div class="col col-lg-6 col-md-6 col-sm-6"><h1>Profiilikuva</h1></div>
@@ -206,11 +223,16 @@
                 </div>
 
                 <div class="col col-lg-8 col-md-8 col-sm-8 border">
+                
                     <div class="formgroup-top-labels"><label class="form-label">ANNISKELULUPA</label><span class="validation"></span></div>
-                    <button type="button" class="btn btn-xs btn-primary">Lataa kuva anniskeluluvastasi</button><input type="file" name="" id="" style="visibility: hidden">
+                    <span class="btn-file">
+                   	<!-- <button type="button" class="btn btn-xs btn-primary">Lataa kuva anniskeluluvastasi</button> -->	
+                    	<input type="file" name="" id="annikuva" class="btn btn-xs btn-primary" data-filename-placement="inside" style="visibility: visible;">
+  					</span>
+  					<button type="button" id="anni" class="btn btn-xs btn-primary">Lataa kuva anniskeluluvastasi</button>
                 </div>
                 <div class="col col-lg-4 col-md-4 col-sm-4 border" style="padding:21px 3px 20px 3px;">
-                    <button type="button" class="btn btn-default btn-block" style="border:none;">LATAA</button>
+                    <button type="button"  class="btn btn-default btn-block" style="border:none;">LATAA</button>
                 </div>
             </div>
         </div>
@@ -227,7 +249,11 @@
 <script type="text/javascript" src="<?php echo JS_PATH; ?>myvalidator.js"></script>
 <script type="text/javascript">
     $(function(){
+        
+    	$('#annikuva').bootstrapFileInput();
+    	//$('.file-inputs').bootstrapFileInput();
 
+    	
         $('.required').text('VAADITAAN');
         $('.profile-pic').click(function(){
             $('#profilepicFile').trigger('click');
@@ -398,5 +424,26 @@
     function getDocuments(){
 
     }
+
+    $('#anni').on('click', function(){    
+        var data = new FormData();
+        data.append('input_file_name', $('#annikuva').prop('files')[0]);
+        // append other variables to data if you want: data.append('field_name_x', field_value_x);
+
+        $.ajax({
+            type: 'POST',               
+            processData: false, // important
+            contentType: false, // important
+            data: data,
+            url: "<?php echo SITE_PATH; ?>profile/uploadempdocuments/", 
+            dataType : 'json',  
+            // in PHP you can call and process file in the same way as if it was submitted from a form:
+            // $_FILES['input_file_name']
+            success: function(jsonData){
+                
+            }
+             
+        }); 
+    });
 
 </script>
