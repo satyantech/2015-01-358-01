@@ -13,11 +13,13 @@
                 <thead>
                     <tr>
                         <th>Date</th>
+                        <th>Job Title</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Skills</th>
                         <th>Contact#</th>
                         <th>Email</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
 
@@ -26,11 +28,13 @@
                     <?php foreach($records as $record){ ?>
                     <tr>
                         <td><?php echo $record->APPLIED_ON; ?></td>
+                        <td><?php echo $record->JOB_TITLE; ?></td>
                         <td><?php echo $record->FIRST_NAME; ?></td>
                         <td><?php echo $record->LAST_NAME; ?></td>
                         <td><?php echo $record->SKILLS; ?></td>
                         <td><?php echo $record->CONTACT_NUM; ?></td>
                         <td><?php echo $record->EMAIL; ?></td>
+                        <td><a href="<?php echo SITE_PATH?>profile/employee/?p=<?php echo $record->WRKR_ID?>"><i class="fa fa-eye"></i></a></td>
                     </tr>
                     <?php } ?>
                 </tbody>
