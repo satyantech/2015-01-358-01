@@ -12,11 +12,12 @@ class ProfileController extends \Phalcon\Mvc\Controller
             $this->view->setLayout('inner-template');
         }
     }
-    public function indexAction(){
+    public function indexAction($p=''){
         $params = array('a'=>'account');
         if($this->session->user_data->usr_type_id == EMPLOYER) {
             $params['sa'] = 'employer-profile';
             $params['usr_id'] = $this->session->user_data->usr_id;
+            
             $fetched_usr_data = json_decode(APICall::execute($params));
 
             if ($fetched_usr_data->response->code == '0x0000'){
@@ -29,6 +30,7 @@ class ProfileController extends \Phalcon\Mvc\Controller
         if($this->session->user_data->usr_type_id == EMPLOYEE){
             $params['sa'] = 'employee-profile';
             $params['usr_id'] = $this->session->user_data->usr_id;
+            
 //            $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
             $fetched_usr_data = json_decode(APICall::execute($params));
             if ($fetched_usr_data->response->code == '0x0000'){
@@ -38,6 +40,19 @@ class ProfileController extends \Phalcon\Mvc\Controller
             }
             $this->view->setVar('page','profile/employee/employee-profile');
         }
+    }
+    public function employeeAction(){
+    	$params = array('a'=>'account');
+    	 $params['sa'] = 'employee-profile';
+    	$params['usr_id'] = $_REQUEST['p'];
+    	
+    	$fetched_usr_data = json_decode(APICall::execute($params));
+    	if ($fetched_usr_data->response->code == '0x0000'){
+    		$this->view->setVar('current_user_data',$fetched_usr_data->response->current_user_data);
+    	}else{
+    		$this->view->setVar('current_user_data',$this->session->user_data);
+    	}
+    	$this->view->setVar('page','profile/employee/employee-view');
     }
     public function preferencesAction(){
         if($this->session->user_data->usr_type_id == EMPLOYEE){
@@ -166,7 +181,56 @@ class ProfileController extends \Phalcon\Mvc\Controller
         }
     }
 
-
+	//******************************Document Upload**********************//
+	
+    public function uploadempdocumentsAction()
+    {
+    	$this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
+    	if($this->request->isAjax()){
+    		$dtid=$this->request->get('dtid');
+    	}
+    	if($this->request->hasFiles()) {
+    		try {
+    			$file = $this->request->getUploadedFiles()[0];
+    
+    			$path = __DIR__.'/../../public/files/profile_docs/';
+    			$file_name = $file->getName();
+    			$str_base_64 = '';
+    			if($this->request->get('returnBase64')) {
+    				$str_base_64 = base64_encode(file_get_contents($file->getTempName()));
+    			}
+    			if($file->moveTo($path.$file->getName())){
+    
+    				$params = array(
+    						'a'      =>  'account',
+    						'sa'     =>  'employee-documents',
+    						'uid'    =>  $this->session->user_data->usr_id,
+    						'file'    =>  $file_name,
+    						'dtid'    => $dtid
+    				);
+    				$res = APICall::execute($params); //	print_r($res); die;
+    
+    				$out = json_decode($res);
+    
+    				if($out->response->code=='0x0000'){
+    					$id=$out->response->id;
+    					echo json_encode(array('response' => array('out' => 'Success','id'=>$id,'file'=>$file_name, 'resp_msg' => 'Successfully Uploaded..')));
+    
+    				}else{
+    					@unlink($path.$file_name);
+    					echo json_encode(array('response'=>array('code'=>'0x000FE','resp_msg'=>'Updation Failed...')));
+    				}
+    					
+    			}
+    			else{
+    				echo json_encode(array('response'=>array('code'=>'0x000FE','resp_msg'=>'Uploading Failed...')));
+    			}
+    		}
+    		catch (Exception $e) {
+    			echo json_encode(array('response'=>array('code'=>'0x000FE','resp_msg'=>'Exception'.$e->getMessage())));
+    		}
+    	}
+    }
 
 
     //************** Notification Functions Start ****************/
