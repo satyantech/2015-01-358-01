@@ -6,7 +6,51 @@
  * Time: 16:02
  */
 ?>
+ 
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#jobfilter').multiselect({
+        onChange: function(option, checked, select) {
+           // alert('Changed option ' + $(option).val() + '.');
+            $('#choosenfilters').append('<span class="badge badge-info">'+$(option).val()+'</span>');
+        }
+    });
+    $('#skilfilter').multiselect({
+        onChange: function(option, checked, select) {
+            // alert('Changed option ' + $(option).val() + '.');
+             $('#choosenfilters').append('<span class="badge badge-success">'+$(option).val()+'</span>');
+         }
+     });
+});
+      
+    
+</script>
 <?php if(!isset($error_msg)){ ?>
+<div class="panel-heading" style="margin-bottom:14px;">
+                    <h2 style="width: 165px;">Basic Filter</h2>
+    <span class="label label-primary">Jobs:</span>             
+    <select id="jobfilter" multiple="multiple">
+    <option value="cheese">Cheese</option>
+    <option value="tomatoes">Tomatoes</option>
+    <option value="mozarella">Mozzarella</option>
+    <option value="mushrooms">Mushrooms</option>
+    <option value="pepperoni">Pepperoni</option>
+    <option value="onions">Onions</option>
+</select>
+<span class="label label-primary">Skills:</span>
+   <select id="skilfilter" multiple="multiple">
+    <option value="cheese">Cheese</option>
+    <option value="tomatoes">Tomatoes</option>
+    <option value="mozarella">Mozzarella</option>
+    <option value="mushrooms">Mushrooms</option>
+    <option value="pepperoni">Pepperoni</option>
+    <option value="onions">Onions</option>
+</select>
+                </div>
+<div class="panel-heading" >
+<p id="choosenfilters"></p>
+</div>
+                <br>
     <div class="row">
         <div class="col-lg-12">
             <table class="table table-bordered table-striped">
