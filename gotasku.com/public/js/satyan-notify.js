@@ -84,6 +84,7 @@ $.fn.jobNotify = function(url,container,link,apply_job_url){
 $.fn.applicationNotify = function(url,container,target_url){
     var ele = $(this);
     $.post(url,{},function(resp){
+    //bootbox.alert(resp); return;
         try{
             var json_data = $.parseJSON(resp);
             if(json_data.response.code == '0x0000'){
