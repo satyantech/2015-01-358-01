@@ -19,7 +19,7 @@
                         <th>Skills</th>
                         <th>Contact#</th>
                         <th>Email</th>
-                        <th>Action</th>
+                        <th>Options</th>
                     </tr>
                 </thead>
 
@@ -34,7 +34,7 @@
                         <td><?php echo $record->SKILLS; ?></td>
                         <td><?php echo $record->CONTACT_NUM; ?></td>
                         <td><?php echo $record->EMAIL; ?></td>
-                        <td><a href="<?php echo SITE_PATH?>profile/viewapplicantprofile/?w=<?php echo $record->WORKER_ID?>&j=<?php echo $record->JOB_ID?>"><i class="fa fa-search"></i></a></td>
+                        <td><a href="<?php echo SITE_PATH; ?>profile/viewapplicantprofile/?j=<?php echo $record->JOB_ID; ?>&w=<?php echo $record->WORKER_ID; ?>"><i class="fa fa-search"></i> </a></td>
                     </tr>
                     <?php } ?>
                 </tbody>

@@ -1,0 +1,159 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Satyanarayan
+ * Date: 03-06-2015
+ * Time: 02:57
+ */
+?>
+<style type="text/css">
+    .profile-image{
+        width:180px;
+        height:200px;
+        text-align: center;
+        overflow: hidden;
+
+    }
+    .profile-image img{
+        width:120%;
+        height:100%;
+        display: inline-block;
+    }
+    .profile-name{
+        color:#0044cc;
+    }
+
+
+</style>
+
+<div class="row border-bottom">
+    <div class="col-lg-10">
+            <div class="profile-name"><h1><?php echo $record->NAME; ?></h1></div>
+            <div class="row profile-contact-details">
+                <div class="col-lg-12">
+                    <?php echo $record->ADDRESS; ?><br/>
+                    <?php echo $record->POSTAL_CODE; ?><br/>
+
+                </div>
+                <div class="col-lg-6"><br/>
+                    <i class="fa fa-phone"></i> &nbsp;&nbsp;<strong><?php echo $record->CONTACT_NUMBER; ?></strong><br/>
+                    <i class="fa fa-envelope-o"></i> &nbsp;&nbsp;<strong><?php echo $record->EMAIL; ?></strong><br/>
+                    <i class="fa fa-bank"></i> &nbsp;&nbsp;<strong><?php echo $record->IBAN; ?></strong>
+                    <br/>
+                    <br/>
+                </div>
+                <div class="col-lg-6"><br/>
+                    <?php
+                        if($record->DOCS) {
+                            $str_records = explode('|', $record->DOCS);
+                            foreach ($str_records as $str_record) {
+                                $vals = explode(',', $str_record);
+                                $type = trim($vals[0]);
+                                $type_label = array(
+                                    'DLC'=>'Driving Licence:',
+                                    'HPT'=>'Hygiene Passport:',
+                                    'OTH'=>'TAX Document:',
+
+                                );
+                                ?>
+                                <div class="col-lg-6"><?php echo $type_label[$type]; ?></div>
+                                <div class="col-lg-6"><a href="<?php echo PROFILE_DOCS . $vals[1]; ?>" download>Download</a></div>
+                                <?php
+                            }
+                        }
+                    ?>
+                    <br/>
+                    <br/>
+                </div>
+            </div>
+    </div>
+    <div class="col-lg-2">
+        <div class="profile-image border">
+            <img src="<?php echo PROFILE_PIC_PATH.($record->PROFILE_PIC?$record->PROFILE_PIC:'defaultProfile.png'); ?>" class="image-responsive">
+        </div>
+    </div>
+</div>
+<div class="row border-bottom">
+    <div class="col-lg-12">
+        <h2>Skills</h2>
+        <p>
+            <?php echo $record->SKILLS; ?>
+        </p>
+    </div>
+</div>
+<div class="row border-bottom">
+    <div class="col-lg-12">
+        <h2>Description</h2>
+        <p align="justify">
+            asd
+            <?php echo $record->DESCRIPTION; ?>
+        </p>
+        <br/>
+    </div>
+</div>
+<div class="row border-bottom">
+    <div class="col-lg-12">
+        <h2>Education</h2>
+        <p align="justify">
+            <?php
+                if($record->EDUCATIONS) {
+                    $str_records = explode('|', $record->EDUCATIONS);
+                    echo '<table class="table table-striped">';
+                    echo '
+                        <thead>
+                            <th>KOULUTUS</th>
+                            <th>OPPILAITOS</th>
+                            <th>PÄÄAINE/KOULUTUSLINJA</th>
+                        </thead>
+                        <tbody>
+                    ';
+                    foreach ($str_records as $str_record) {
+                        $vals = explode(',', $str_record);
+                        echo '<tr><td>'.$vals[1].'</td>';
+                        echo '<td>'.$vals[2].'</td>';
+                        echo '<td>'.$vals[3].'</td></tr>';
+                    }
+                    echo '</tbody></table>';
+                }
+            ?>
+        </p>
+        <br/>
+    </div>
+</div>
+<div class="row border-bottom">
+    <div class="col-lg-12">
+        <h2>Experience</h2>
+        <p align="justify">
+            <?php
+            if($record->EXPERIENCES) {
+                $str_records = explode('|', $record->EXPERIENCES);
+                echo '<table class="table table-striped">';
+                echo '
+                        <thead>
+                            <th>Designation</th>
+                            <th>Organization</th>
+                            <th>From</th>
+                            <th>To</th>
+                        </thead>
+                        <tbody>
+                    ';
+                foreach ($str_records as $str_record) {
+                    $vals = explode(',', $str_record);
+                    echo '<tr><td>'.$vals[0].'</td>';
+                    echo '<td>'.$vals[1].'</td>';
+                    echo '<td>'.$vals[2].'</td>';
+                    echo '<td>'.$vals[3].'</td></tr>';
+                }
+                echo '</tbody></table>';
+            }
+            ?>
+        </p>
+        <br/>
+    </div>
+</div>
+<div class="row"><br/>
+    <div class="col-lg-12 center">
+        <button type="button" class="btn btn-primary">Call for an Interview!</button>
+        <button type="button" class="btn btn-info">Select Candidate!</button>
+    </div>
+</div>
