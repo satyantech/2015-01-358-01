@@ -81,10 +81,11 @@ class EducationController extends \Phalcon\Mvc\Controller
 
     //Skills
     public function getEmpSkillsAction(){
+    	$uid=$this->request->get('wrkr_id')?$this->request->get('wrkr_id'):$this->session->user_data->usr_id;
         $params = array(
             'a'=>'db-get',
             'sa'=>'get-emp-skills',
-            'usr_id'=>$this->session->user_data->usr_id
+            'usr_id'=>$uid
         );
         echo APICall::execute($params);
     }

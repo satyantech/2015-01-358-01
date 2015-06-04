@@ -12,7 +12,7 @@ class ProfileController extends \Phalcon\Mvc\Controller
             $this->view->setLayout('inner-template');
         }
     }
-    public function indexAction($p=''){
+    public function indexAction(){
         $params = array('a'=>'account');
         if($this->session->user_data->usr_type_id == EMPLOYER) {
             $params['sa'] = 'employer-profile';
@@ -41,7 +41,22 @@ class ProfileController extends \Phalcon\Mvc\Controller
             $this->view->setVar('page','profile/employee/employee-profile');
         }
     }
-    public function employeeAction(){
+    public function viewApplicantProfileAction(){
+    	 $params = array('a'=>'account');
+    	$params['sa'] = 'employee-profile';
+    	$params['usr_id'] = $this->request->get('w');
+    	$params['job_id'] = $this->request->get('j');
+    	$applicant_data = json_decode(APICall::execute($params));
+    	//print_r($applicant_data);
+    	if ($applicant_data->response->code == '0x0000'){
+    		$this->view->setVar('record',$applicant_data->response->applicant_data);
+    	}else{
+    		$this->view->setVar('applicant_data',$this->request->get('w'));
+    	}
+    	 
+    	$this->view->page = 'profile/employer/job-applicant';
+    }
+   /*  public function employeeAction(){
     	$params = array('a'=>'account');
     	 $params['sa'] = 'employee-profile';
     	$params['usr_id'] = $_REQUEST['p'];
@@ -53,7 +68,7 @@ class ProfileController extends \Phalcon\Mvc\Controller
     		$this->view->setVar('current_user_data',$this->session->user_data);
     	}
     	$this->view->setVar('page','profile/employee/employee-view');
-    }
+    } */
     public function preferencesAction(){
         if($this->session->user_data->usr_type_id == EMPLOYEE){
 //            $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
