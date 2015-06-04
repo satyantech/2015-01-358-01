@@ -18,10 +18,12 @@ if(isset($_REQUEST['usr_id']) && is_numeric($_REQUEST['usr_id']) && $_REQUEST['u
         GROUP BY ap.job_id
     ";
     $stmt = $pdo->query($sql);
+    //echo json_encode(array('response'=>array('code'=>'0x00EX','resp_msg'=>'No Records','sql'=>$sql)));exit;
     if($stmt->rowCount()>0) {
         $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode(array('response'=>array('code'=>'0x0000','resp_msg'=>'','records'=>$records)));
     }else{
         echo json_encode(array('response'=>array('code'=>'0x00EX','resp_msg'=>'No Records')));
+        
     }
 }
